@@ -1,0 +1,29 @@
+channel.element =
+    element channel {
+        title.element &
+        link.element &
+        description.element &
+        atom.link.element+ &
+        generator.element? &
+        language.element? &
+        copyright.element? &
+        managing-editor.element? &
+        webmaster.element? &
+        pubdate.element? &
+        category.element? &
+        last-build-date.element? &
+        docs.element? &
+        cloud.element? &
+        ttl.element? &
+        image.element? &
+        rating.element? &
+        text-input.element? &
+        skipHours.element? &
+        skipDays.element? &
+        item.element*
+    }
+
+rfc822.date =
+    xsd:string { pattern =
+  "(((Mon)|(Tue)|(Wed)|(Thu)|(Fri)|(Sat)|(Sun)), )?\d{1,2} ((Jan)|(Feb)|(Mar)|(Apr)|(May)|(Jun)|(Jul)|(Aug)|(Sep)|(Oct)|(Nov)|(Dec)) \d{4} \d{2}:\d{2}(:\d{2})? ((UT)|(GMT)|(EST)|(EDT)|(CST)|(CDT)|(MST)|(MDT)|(PST)|(PDT)|([\+\-]\d{4}))"
+}
