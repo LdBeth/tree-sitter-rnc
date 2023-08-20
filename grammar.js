@@ -24,12 +24,14 @@ module.exports = grammar({
           '=', field('uri', $._literal))
     ),
 
-    _grammarContent: $ => seq(
-      optional($.annotation),
-      choice(
-        $.define,
-        $.grammar_div,
-        $.include)
+    _grammarContent: $ => choice(
+      $.annotation_element,
+      seq(
+        optional($.annotation),
+        choice(
+          $.define,
+          $.grammar_div,
+          $.include))
     ),
 
     grammar_div: $ => seq('div', $.grammar_block),
