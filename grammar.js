@@ -147,7 +147,7 @@ module.exports = grammar({
       seq($._simpleNameClass, '|', $._nameClassChoice),
     ),
 
-    datatype_name: $ => choice($_CName, 'string', 'token'),
+    datatype_name: $ => choice($._CName, 'string', 'token'),
 
 
     identifier: $ => choice($._NCName, seq('\\', $._NCName)),
