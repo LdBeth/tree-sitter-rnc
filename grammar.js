@@ -44,7 +44,7 @@ module.exports = grammar({
 
     include_block: $ => seq(
       '{',
-      optional(annotations),
+      optional($.annotations),
       choice($.define, $.include_div),
       '}'),
 
