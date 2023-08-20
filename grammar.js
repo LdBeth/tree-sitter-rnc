@@ -53,33 +53,52 @@ module.exports = grammar({
       field('body', $.pattern)
     ),
 
-    pattern: $ => choice(
+    _pattern: $ => choice(
       $._primaryPattern,
-      $._patternChoice,
-      $._patternGroup,
-      $._patternInterleave,
-      $._repeatedPattern
+      $.choice_pattern,
+      $.group_pattern,
+      $.interleave_pattern,
+      $.repeated_pattern
     ),
 
     _primaryPattern: $ => choice(
-      seq('element', $.nameClass, '{', $.pattern, '}'),
-      seq('attribute', $.nameClass, '{', $.pattern, '}'),
-      seq('list', '{', $.pattern, '}'),
-      seq('mixed', '{', $.pattern, '}'),
-      seq('parent', $.identifier),
-      $.identifier,
-      seq(optional($.datatypeName), $._literal),
-      seq($.datatypeName,
-          optional(seq('{', repeat($.param), '}')),
-          optional(seq('-', $._primaryPattern))),
+      $.element,
       seq('(', $.pattern, ')'),
     ),
 
-    param: $ => seq($.identifier, '=', $._literal), 
+    element: $ => choice(
+      seq('element', $.name_class, $.pattern_block),
+      seq('attribute', $.name_class, $.pattern_block),
+      seq('list', $.pattern_block),
+      seq('mixed', $.pattern_block),
+      $.datatype
+      $.identifier,
+      seq('parent', $.identifier),
+    ),
 
-    _repeatedPattern: $ => seq($._primaryPattern, choice('*', '+', '?')),
+    datatype: $ => choice(
+      seq(optional(field('name', $._datatypeName)),
+          field('value', $._literal)),
+      seq(field('name', $._datatypeName),
+          optional($.param_block),
+          optional(seq('-', field('except', $._primaryPattern))))
+    ),
+
+    pattern_block: $ => seq('{', $.pattern, '}'),
+
+    param_block: $ => seq('{', repeat($.param), '}'),
+    param: $ => seq(
+      field('name', $.identifier),
+      '=',
+      field('value', $._literal)), 
+
+    repeated_pattern: $ => seq($._primaryPattern, choice('*', '+', '?')),
 
     _particle: $ => choice($._primaryPattern, $._repeatedPattern),
+
+    choice_pattern: $ => $._patternChoice,
+    group_pattern: $ =>  $._patternGroup,
+    interleave_pattern: $ => $._patternInterleave,
     
     _patternChoice: $ => choice(
       seq($._particle, '|', $._particle),
@@ -112,23 +131,23 @@ module.exports = grammar({
       seq("'''", /('?'?[^"])*/, "'''")
     )),
 
-    nameClass: $ => choice(
-      $._nameClassChoice,
+    name_class: $ => choice(
+      $._name_classChoice,
       $._simpleNameClass,
-      seq($.name, '-', $.nameClass)
+      seq($.name, '-', $.name_class)
     ),
 
     _simpleNameClass: $ => choice(
       $.name,
-      seq('(', $.nameClass, ')')
+      seq('(', $.name_class, ')')
     ),
 
-    _nameClassChoice: $ => choice(
+    _name_classChoice: $ => choice(
       seq($._simpleNameClass, '|', $._simpleNameClass),
-      seq($._simpleNameClass, '|', $._nameClassChoice),
+      seq($._simpleNameClass, '|', $._name_classChoice),
     ),
 
-    datatypeName: $ => choice(
+    _datatypeName: $ => choice(
       seq($.identifier, ':', $.identifier),
       'string', 'token'),
 
