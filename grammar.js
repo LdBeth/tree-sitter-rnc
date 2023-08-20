@@ -24,7 +24,7 @@ module.exports = grammar({
     ),
 
     _grammarContent: $ => seq(
-      optional($.annotations),
+      optional($.annotation),
       choice(
         $.define,
         $.grammar_div,
@@ -44,7 +44,7 @@ module.exports = grammar({
 
     include_block: $ => seq(
       '{',
-      optional($.annotations),
+      optional($.annotation),
       choice($.define, $.include_div),
       '}'),
 
@@ -95,7 +95,7 @@ module.exports = grammar({
 
     param_block: $ => seq('{', repeat($.param), '}'),
     param: $ => seq(
-      optional($.annotations),
+      optional($.annotation),
       field('name', $.identifier),
       '=',
       field('value', $._literal)), 
