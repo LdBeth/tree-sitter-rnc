@@ -160,7 +160,7 @@ module.exports = grammar({
 
     _exceptNameClass: $ => seq(
       optional($.annotation),
-      $.name, '-', $._nameClass,
+      $.name, '-', $._simpleNameClass,
     ),
 
     datatype_name: $ => choice($._CName, 'string', 'token'),
