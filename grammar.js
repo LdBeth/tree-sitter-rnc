@@ -66,15 +66,17 @@ module.exports = grammar({
       seq('(', $._pattern, ')'),
     ),
 
-    element: $ => choice(
-      seq('element', $._nameClass, $.pattern_block),
-      seq('attribute', $._nameClass, $.pattern_block),
-      seq('list', $.pattern_block),
-      seq('mixed', $.pattern_block),
-      $.datatype,
-      $.identifier,
-      seq('parent', $.identifier),
-    ),
+    element: $ => seq(
+      $.documentations,
+      choice(
+        seq('element', $._nameClass, $.pattern_block),
+        seq('attribute', $._nameClass, $.pattern_block),
+        seq('list', $.pattern_block),
+        seq('mixed', $.pattern_block),
+        $.datatype,
+        $.identifier,
+        seq('parent', $.identifier)
+      )),
 
     datatype: $ => choice(
       seq(optional(field('name', $.datatype_name)),
@@ -181,7 +183,8 @@ module.exports = grammar({
       'text',
       'token'),
 
-    comment: $ => token(/#.*/)
+    comment: $ => token(/#[^#]?.*/)
+    documentations: $ => repeat(token(/##.*/))
   }
 });
 /*
