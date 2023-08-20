@@ -68,7 +68,7 @@ module.exports = grammar({
 
     element: $ => choice(
       seq('element', $._nameClass, $.pattern_block),
-      seq('attribute', $.nameClass, $.pattern_block),
+      seq('attribute', $._nameClass, $.pattern_block),
       seq('list', $.pattern_block),
       seq('mixed', $.pattern_block),
       $.datatype,
