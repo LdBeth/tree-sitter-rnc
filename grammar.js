@@ -23,10 +23,12 @@ module.exports = grammar({
           '=', field('uri', $._literal))
     ),
 
-    _grammarContent: $ => choice(
-      $.define,
-      $.grammar_div,
-      $.include
+    _grammarContent: $ => seq(
+      optional(annotations),
+      choice(
+        $.define,
+        $.grammar_div,
+        $.include)
     ),
 
     grammar_div: $ => seq('div', $.grammar_block),
@@ -42,6 +44,7 @@ module.exports = grammar({
 
     include_block: $ => seq(
       '{',
+      optional(annotations),
       choice($.define, $.include_div),
       '}'),
 
@@ -66,6 +69,7 @@ module.exports = grammar({
       choice(
         $.primary,
         seq('(', $._pattern, ')')),
+      repeat($.follow_annotation)
     ),
 
     primary: $ => seq(
@@ -91,6 +95,7 @@ module.exports = grammar({
 
     param_block: $ => seq('{', repeat($.param), '}'),
     param: $ => seq(
+      optional($.annotations),
       field('name', $.identifier),
       '=',
       field('value', $._literal)), 
@@ -144,7 +149,8 @@ module.exports = grammar({
       optional($.annotation),
       choice(
         $.name,
-        seq('(', $._nameClass, ')'))
+        seq('(', $._nameClass, ')')),
+      repeat($.follow_annotation)
     ),
 
     _nameClassChoice: $ => choice(
@@ -154,7 +160,8 @@ module.exports = grammar({
 
     _exceptNameClass: $ => seq(
       optional($.annotation),
-      $.name, '-', $._nameClass),
+      $.name, '-', $._nameClass,
+      repeat($.follow_annotation)),
 
     datatype_name: $ => choice($._CName, 'string', 'token'),
 
@@ -198,6 +205,10 @@ module.exports = grammar({
       $._NCName,
       seq('\\', $._NCName),
       $._CName
+    ),
+
+    follow_annotation: $ => seq(
+      '>>', $.annotation_element
     ),
     
     _keyword: $ => choice(
