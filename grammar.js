@@ -77,9 +77,9 @@ module.exports = grammar({
     ),
 
     datatype: $ => choice(
-      seq(optional(field('name', $._datatypeName)),
+      seq(optional(field('name', $.datatype_name)),
           field('value', $._literal)),
-      seq(field('name', $._datatypeName),
+      seq(field('name', $.datatype_name),
           optional($.param_block),
           optional(seq('-', field('except', $._primaryPattern))))
     ),
@@ -147,19 +147,18 @@ module.exports = grammar({
       seq($._simpleNameClass, '|', $._nameClassChoice),
     ),
 
-    _datatypeName: $ => choice(
-      seq($.identifier, ':', $.identifier),
-      'string', 'token'),
+    datatype_name: $ => choice($_CName, 'string', 'token'),
 
 
     identifier: $ => choice($._NCName, seq('\\', $._NCName)),
     name: $ => choice(
       $._NCName,
       seq('\\', $._NCName),
-      seq($._NCName, ':', $._NCName),
+      $._CName,
       seq($._NCName, ':*'),
       '*'
     ),
+    _CName: $ => seq($._NCName, ':', $._NCName),
     _NCName: $ => /[_0-9A-Za-z][_0-9A-Za-z\-\.]*/,
     _keyword: $ => choice(
       'attribute',
