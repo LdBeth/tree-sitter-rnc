@@ -57,11 +57,12 @@ module.exports = grammar({
     ),
 
     _pattern: $ => choice(
-      $._primaryPattern,
+      seq($._primaryPattern, repeat($.follow_annotation)),
       $.choice_pattern,
       $.group_pattern,
       $.interleave_pattern,
       $.repeated_pattern
+      $.datatype,
     ),
 
     _primaryPattern: $ => seq(
@@ -69,7 +70,6 @@ module.exports = grammar({
       choice(
         $.primary,
         seq('(', $._pattern, ')')),
-      repeat($.follow_annotation)
     ),
 
     primary: $ => seq(
@@ -78,17 +78,19 @@ module.exports = grammar({
         seq('attribute', $._nameClass, $.pattern_block),
         seq('list', $.pattern_block),
         seq('mixed', $.pattern_block),
-        $.datatype,
         $.identifier,
         seq('parent', $.identifier)
       )),
 
-    datatype: $ => choice(
-      seq(optional(field('name', $.datatype_name)),
-          field('value', $._literal)),
-      seq(field('name', $.datatype_name),
-          optional($.param_block),
-          optional(seq('-', field('except', $._primaryPattern))))
+    datatype: $ => seq(
+      optional($.annotation),
+      choice(
+        seq(optional(field('name', $.datatype_name)),
+            field('value', $._literal)),
+        seq(field('name', $.datatype_name),
+            optional($.param_block),
+            optional(seq('-', field('except', $._primaryPattern))))),
+      repeat($.follow_annotation)
     ),
 
     pattern_block: $ => seq('{', $._pattern, '}'),
