@@ -21,8 +21,7 @@
       "scope": "source.rnc",
       "file-types": [
         "rnc"
-      ],
-      "injection-regex": "rnc"
+      ]
     }
   ]
 }
