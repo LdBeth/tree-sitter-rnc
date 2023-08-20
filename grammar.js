@@ -62,12 +62,11 @@ module.exports = grammar({
     ),
 
     _primaryPattern: $ => choice(
-      $.element,
+      $.primary,
       seq('(', $._pattern, ')'),
     ),
 
-    element: $ => seq(
-      repeat($._docLine),
+    primary: $ => seq(
       choice(
         seq('element', $._nameClass, $.pattern_block),
         seq('attribute', $._nameClass, $.pattern_block),
@@ -162,6 +161,37 @@ module.exports = grammar({
     ),
     _CName: $ => seq($._NCName, ':', $._NCName),
     _NCName: $ => /[_0-9A-Za-z][_0-9A-Za-z\-\.]*/,
+
+    annotation: $ => choice(
+      $.documentations,
+      seq($.documentations, $.annotation_block)
+    ),
+
+    documentations: $ => repeat1(_docLine),
+    annotation_block: $ => seq(
+      '[',
+      repeat($.annotation_attribute),
+      repeat($.annotation_element),
+      ']'),
+    annotation_attribute: $ => seq(
+      field('name', $.element_name),
+      '=',
+      field('value', $._literal)),
+    annotation_element: $ => seq(
+      element_name,
+      $.annotation_element_block
+    ),
+    annotation_block: $ => seq(
+      '[',
+      repeat($.annotation_attribute),
+      repeat(choice($.annotation_element, $._literal)),
+      ']'),
+    element_name: $ => choice(
+      $._NCName,
+      seq('\\', $._NCName),
+      $._CName
+    ),
+    
     _keyword: $ => choice(
       'attribute',
       'default',
