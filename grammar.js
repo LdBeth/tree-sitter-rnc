@@ -99,6 +99,7 @@ module.exports = grammar({
     _namespaceURILiteral: $ => choice(
       $._literal,
       'inherit'),
+    _inherit: $ => seq('inherit', '=', field('ns', $.identifier)),
 
     _literal: $ => choice(
       $.literal_segment,
