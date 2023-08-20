@@ -84,7 +84,7 @@ module.exports = grammar({
           optional(seq('-', field('except', $._primaryPattern))))
     ),
 
-    pattern_block: $ => seq('{', $.pattern, '}'),
+    pattern_block: $ => seq('{', $._pattern, '}'),
 
     param_block: $ => seq('{', repeat($.param), '}'),
     param: $ => seq(
