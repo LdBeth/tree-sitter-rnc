@@ -60,7 +60,7 @@ module.exports = grammar({
     ),
 
     _pattern: $ => choice(
-      seq($._primaryPattern, repeat($.follow_annotation)),
+      $._annotatedPrimary,
       $.choice_pattern,
       $.group_pattern,
       $.interleave_pattern,
@@ -73,6 +73,9 @@ module.exports = grammar({
         $.primary,
         seq('(', $._pattern, ')')),
     ),
+
+    _annotatedPrimary: $ => seq(
+      $._primaryPattern, repeat($.follow_annotation)),
 
     primary: $ => choice(
       seq('element', $._nameClass, $.pattern_block),
@@ -110,7 +113,7 @@ module.exports = grammar({
 
     repeated_pattern: $ => seq($._primaryPattern, choice('*', '+', '?')),
 
-    _particle: $ => choice($._primaryPattern, $.repeated_pattern),
+    _particle: $ => choice($._annotatedPrimary, $.repeated_pattern),
 
     choice_pattern: $ => $._patternChoice,
     group_pattern: $ =>  $._patternGroup,
