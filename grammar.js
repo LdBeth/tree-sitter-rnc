@@ -72,15 +72,14 @@ module.exports = grammar({
         seq('(', $._pattern, ')')),
     ),
 
-    primary: $ => seq(
-      choice(
-        seq('element', $._nameClass, $.pattern_block),
-        seq('attribute', $._nameClass, $.pattern_block),
-        seq('list', $.pattern_block),
-        seq('mixed', $.pattern_block),
-        $.identifier,
-        seq('parent', $.identifier)
-      )),
+    primary: $ => choice(
+      seq('element', $._nameClass, $.pattern_block),
+      seq('attribute', $._nameClass, $.pattern_block),
+      seq('list', $.pattern_block),
+      seq('mixed', $.pattern_block),
+      $.identifier,
+      seq('parent', $.identifier)
+    ),
 
     datatype: $ => seq(
       optional($.annotation),
@@ -142,8 +141,8 @@ module.exports = grammar({
     )),
 
     _nameClass: $ => choice(
+      seq($._simpleNameClass, repeat($.follow_annotation)),
       $._nameClassChoice,
-      $._simpleNameClass,
       $._exceptNameClass
     ),
 
@@ -152,7 +151,6 @@ module.exports = grammar({
       choice(
         $.name,
         seq('(', $._nameClass, ')')),
-      repeat($.follow_annotation)
     ),
 
     _nameClassChoice: $ => choice(
