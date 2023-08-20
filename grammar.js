@@ -94,7 +94,7 @@ module.exports = grammar({
 
     repeated_pattern: $ => seq($._primaryPattern, choice('*', '+', '?')),
 
-    _particle: $ => choice($._primaryPattern, $._repeatedPattern),
+    _particle: $ => choice($._primaryPattern, $.repeated_pattern),
 
     choice_pattern: $ => $._patternChoice,
     group_pattern: $ =>  $._patternGroup,
