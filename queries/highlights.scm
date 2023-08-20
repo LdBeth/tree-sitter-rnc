@@ -22,6 +22,11 @@
 
 (datatype_name) @type
 
-(literal_segment) @number
+(literal_segment) @string
 
 (define name: (identifier) @function)
+
+(comment) @comment
+
+(documentation) @attribute
+
