@@ -71,7 +71,7 @@ module.exports = grammar({
       seq('attribute', $.name_class, $.pattern_block),
       seq('list', $.pattern_block),
       seq('mixed', $.pattern_block),
-      $.datatype
+      $.datatype,
       $.identifier,
       seq('parent', $.identifier),
     ),
