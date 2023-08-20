@@ -6,15 +6,24 @@ module.exports = grammar({
   ],
   rules: {
     source_file: $ => seq(
-      repeat($.declares),
+      repeat($.declare),
       choice($.pattern, repeat($._grammarContent))
     ),
 
-    declares: $ => choice(
-      seq('namespace', $.identifier, '=', $._namespaceURILiteral),
-      seq('default', 'namespace', optional($.identifier), '=', $._namespaceURILiteral),
-      seq('datatypes', $.identifier, '=', $.literal)
+    declare: $ => choice(
+      seq('namespace',
+          field('name', $.identifier),
+          '=',
+          field('uri', $._namespaceURILiteral)),
+      seq('default', 'namespace',
+          optional(field('name', $.identifier)),
+          '=',
+          field('uri', $._namespaceURILiteral)),
+      seq('datatypes', field('name', $.identifier),
+          '=', field('uri', $.literal))
     ),
+
+    datatype_declare: $ => ,
 
     _grammarContent: $ => choice(
       $.define, // TODO
@@ -41,14 +50,14 @@ module.exports = grammar({
       seq('mixed', '{', $.pattern, '}'),
       seq('parent', $.identifier),
       $.identifier,
-      seq(optional($.datatypeName), $.literal),
+      seq(optional($.datatypeName), $._literal),
       seq($.datatypeName,
           optional(seq('{', repeat($.param), '}')),
           optional(seq('-', $._primaryPattern))),
       seq('(', $.pattern, ')'),
     ),
 
-    param: $ => seq($.identifier, '=', $.literal), 
+    param: $ => seq($.identifier, '=', $._literal), 
 
     _repeatedPattern: $ => seq($._primaryPattern, choice('*', '+', '?')),
 
@@ -70,16 +79,18 @@ module.exports = grammar({
     ),
 
     _namespaceURILiteral: $ => choice(
-      $.literal,
+      $._literal,
       'inherit'),
 
-    literal: $ => choice(
-      $.literalSegment,
-      seq($.literalSegment, '~', $.literal)
+    _literal: $ => choice(
+      $.literal_segment,
+      seq($.literal_segment, '~', $._literal)
     ),
-    literalSegment: $ => token(choice(
+    literal_segment: $ => token(choice(
       seq("'", /[^'\n]*/, "'"),
-      seq('"', /[^"\n]*/, '"')
+      seq('"', /[^"\n]*/, '"'),
+      seq('"""', /("?"?[^"])*/, '"""'),
+      seq("'''", /('?'?[^"])*/, "'''")
     )),
 
     nameClass: $ => choice(
