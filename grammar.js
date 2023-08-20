@@ -7,7 +7,7 @@ module.exports = grammar({
   rules: {
     source_file: $ => seq(
       repeat($.declare),
-      choice($.pattern, repeat($._grammarContent))
+      choice($._pattern, repeat($._grammarContent))
     ),
 
     declare: $ => choice(
@@ -50,7 +50,7 @@ module.exports = grammar({
     define: $ => seq(
       field('name', $.identifier),
       choice('=', '|=', '&='),
-      field('body', $.pattern)
+      field('body', $._pattern)
     ),
 
     _pattern: $ => choice(
@@ -63,7 +63,7 @@ module.exports = grammar({
 
     _primaryPattern: $ => choice(
       $.element,
-      seq('(', $.pattern, ')'),
+      seq('(', $._pattern, ')'),
     ),
 
     element: $ => choice(
