@@ -28,5 +28,5 @@
 
 (comment) @comment
 
-(documentation) @attribute
+(documentations) @attribute
 
