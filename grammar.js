@@ -67,8 +67,8 @@ module.exports = grammar({
     ),
 
     element: $ => choice(
-      seq('element', $.name_class, $.pattern_block),
-      seq('attribute', $.name_class, $.pattern_block),
+      seq('element', $._nameClass, $.pattern_block),
+      seq('attribute', $.nameClass, $.pattern_block),
       seq('list', $.pattern_block),
       seq('mixed', $.pattern_block),
       $.datatype,
@@ -131,20 +131,20 @@ module.exports = grammar({
       seq("'''", /('?'?[^"])*/, "'''")
     )),
 
-    name_class: $ => choice(
-      $._name_classChoice,
+    _nameClass: $ => choice(
+      $._nameClassChoice,
       $._simpleNameClass,
-      seq($.name, '-', $.name_class)
+      seq($.name, '-', $._nameClass)
     ),
 
     _simpleNameClass: $ => choice(
       $.name,
-      seq('(', $.name_class, ')')
+      seq('(', $._nameClass, ')')
     ),
 
-    _name_classChoice: $ => choice(
+    _nameClassChoice: $ => choice(
       seq($._simpleNameClass, '|', $._simpleNameClass),
-      seq($._simpleNameClass, '|', $._name_classChoice),
+      seq($._simpleNameClass, '|', $._nameClassChoice),
     ),
 
     _datatypeName: $ => choice(
