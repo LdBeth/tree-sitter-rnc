@@ -24,7 +24,7 @@ module.exports = grammar({
     ),
 
     _grammarContent: $ => seq(
-      optional(annotations),
+      optional($.annotations),
       choice(
         $.define,
         $.grammar_div,
