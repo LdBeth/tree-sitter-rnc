@@ -62,7 +62,6 @@ module.exports = grammar({
       $.group_pattern,
       $.interleave_pattern,
       $.repeated_pattern,
-      $.datatype,
     ),
 
     _primaryPattern: $ => seq(
@@ -79,17 +78,15 @@ module.exports = grammar({
       seq('mixed', $.pattern_block),
       $.identifier,
       seq('parent', $.identifier)
+      $.datatype,
     ),
 
-    datatype: $ => seq(
-      optional($.annotation),
-      choice(
-        seq(optional(field('name', $.datatype_name)),
-            field('value', $._literal)),
-        seq(field('name', $.datatype_name),
-            optional($.param_block),
-            optional(seq('-', field('except', $._primaryPattern))))),
-      repeat($.follow_annotation)
+    datatype: $ => choice(
+      seq(optional(field('name', $.datatype_name)),
+          field('value', $._literal)),
+      seq(field('name', $.datatype_name),
+          optional($.param_block),
+          optional(seq('-', field('except', $._primaryPattern))))
     ),
 
     pattern_block: $ => seq('{', $._pattern, '}'),
