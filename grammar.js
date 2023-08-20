@@ -61,9 +61,11 @@ module.exports = grammar({
       $.repeated_pattern
     ),
 
-    _primaryPattern: $ => choice(
-      $.primary,
-      seq('(', $._pattern, ')'),
+    _primaryPattern: $ => seq(
+      optional($.annotation),
+      choice(
+        $.primary,
+        seq('(', $._pattern, ')')),
     ),
 
     primary: $ => seq(
@@ -213,7 +215,7 @@ module.exports = grammar({
       'text',
       'token'),
 
-    comment: $ => token(prec(-10, /#[^#]?.*/)),
+    comment: $ => token(prec(-10, /#.*/)),
     _docLine: $ => token(/##.*/)
   }
 });
