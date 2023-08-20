@@ -24,8 +24,28 @@ module.exports = grammar({
     ),
 
     _grammarContent: $ => choice(
-      $.define, // TODO
+      $.define,
+      $.grammar_div,
+      $.include
     ),
+
+    grammar_div: $ => seq('div', $.grammar_block),
+
+    grammar_block: $ => seq('{', $._grammarContent, '}'),
+
+    include: $ => seq(
+      'include',
+      field('uri', $._literal),
+      optional($._inherit),
+      include_block
+    ),
+
+    include_block: $ => seq(
+      '{',
+      choice($.define, $.include_div),
+      '}'),
+
+    include_div: $ => seq('div', $.include_block),
 
     define: $ => seq(
       field('name', $.identifier),
