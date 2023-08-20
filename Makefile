@@ -1,4 +1,4 @@
-TREE_CLI := $(HOME)/.cargo/bin/tree-sitter-cli
+TREE_CLI := $(HOME)/.cargo/bin/tree-sitter
 EXAMPLE := examples/test.rnc
 
 all: generate test
