@@ -2,4 +2,4 @@ foo = attribute charoff {
     xsd:integer >> a:documentation [ "An explicit offset." ]
    | xsd:string { pattern = "[0-9]+%" }
       >> a:documentation [ "A percentage offset." ]
-  }?
+  }
