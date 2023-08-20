@@ -37,7 +37,7 @@ module.exports = grammar({
       'include',
       field('uri', $._literal),
       optional($._inherit),
-      include_block
+      $.include_block
     ),
 
     include_block: $ => seq(
