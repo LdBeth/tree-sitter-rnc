@@ -20,7 +20,7 @@ module.exports = grammar({
           '=',
           field('uri', $._namespaceURILiteral)),
       seq('datatypes', field('name', $.identifier),
-          '=', field('uri', $.literal))
+          '=', field('uri', $._literal))
     ),
 
     _grammarContent: $ => choice(
