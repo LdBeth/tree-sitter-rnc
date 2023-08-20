@@ -23,8 +23,6 @@ module.exports = grammar({
           '=', field('uri', $.literal))
     ),
 
-    datatype_declare: $ => ,
-
     _grammarContent: $ => choice(
       $.define, // TODO
     ),
