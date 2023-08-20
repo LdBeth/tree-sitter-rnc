@@ -61,7 +61,7 @@ module.exports = grammar({
       $.choice_pattern,
       $.group_pattern,
       $.interleave_pattern,
-      $.repeated_pattern
+      $.repeated_pattern,
       $.datatype,
     ),
 
