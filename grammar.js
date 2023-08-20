@@ -67,7 +67,7 @@ module.exports = grammar({
     ),
 
     element: $ => seq(
-      $.documentations,
+      repeat($._docLine),
       choice(
         seq('element', $._nameClass, $.pattern_block),
         seq('attribute', $._nameClass, $.pattern_block),
@@ -184,7 +184,7 @@ module.exports = grammar({
       'token'),
 
     comment: $ => token(/#[^#]?.*/),
-    documentations: $ => repeat(token(/##.*/))
+    _docLine: $ => token(/##.*/)
   }
 });
 /*
