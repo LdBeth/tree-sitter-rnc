@@ -33,7 +33,7 @@ module.exports = grammar({
 
     grammar_div: $ => seq('div', $.grammar_block),
 
-    grammar_block: $ => seq('{', $._grammarContent, '}'),
+    grammar_block: $ => seq('{', repeat($._grammarContent), '}'),
 
     include: $ => seq(
       'include',
@@ -77,10 +77,17 @@ module.exports = grammar({
       seq('list', $.pattern_block),
       seq('mixed', $.pattern_block),
       $.identifier,
-      seq('parent', $.identifier),
       $.datatype,
+      seq('parent', $.identifier),
+      seq('grammar',  $.grammar_block),
+      $.external
     ),
 
+    external: $ => seq(
+      'external',
+      field('uri', $._literal),
+      $._inherit
+    ),
     datatype: $ => choice(
       seq(optional(field('name', $.datatype_name)),
           field('value', $._literal)),
