@@ -4,7 +4,7 @@ module.exports = grammar({
     /\s/,
     $.comment
   ],
-  word: $ => /[_0-9A-Za-z][_0-9A-Za-z\-\.]*/,
+  word: $ => $._NCName,
   rules: {
     source_file: $ => seq(
       repeat($.declare),
