@@ -183,7 +183,7 @@ module.exports = grammar({
       'text',
       'token'),
 
-    comment: $ => token(/#[^#]?.*/),
+    comment: $ => token(prec(-10, /#[^#]?.*/)),
     _docLine: $ => token(/##.*/)
   }
 });
