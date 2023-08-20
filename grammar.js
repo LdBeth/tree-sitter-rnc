@@ -143,7 +143,7 @@ module.exports = grammar({
     _nameClass: $ => choice(
       seq($._simpleNameClass, repeat($.follow_annotation)),
       $._nameClassChoice,
-      $._exceptNameClass
+      seq($._exceptNameClass, repeat($.follow_annotation)),
     ),
 
     _simpleNameClass: $ => seq(
@@ -161,7 +161,7 @@ module.exports = grammar({
     _exceptNameClass: $ => seq(
       optional($.annotation),
       $.name, '-', $._nameClass,
-      repeat($.follow_annotation)),
+    ),
 
     datatype_name: $ => choice($._CName, 'string', 'token'),
 
