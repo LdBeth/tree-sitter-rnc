@@ -178,7 +178,7 @@ module.exports = grammar({
       '=',
       field('value', $._literal)),
     annotation_element: $ => seq(
-      element_name,
+      $.element_name,
       $.annotation_element_block
     ),
     annotation_block: $ => seq(
