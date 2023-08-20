@@ -181,7 +181,7 @@ module.exports = grammar({
       $.element_name,
       $.annotation_element_block
     ),
-    annotation_block: $ => seq(
+    annotation_element_block: $ => seq(
       '[',
       repeat($.annotation_attribute),
       repeat(choice($.annotation_element, $._literal)),
