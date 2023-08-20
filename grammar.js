@@ -167,7 +167,7 @@ module.exports = grammar({
       seq($.documentations, $.annotation_block)
     ),
 
-    documentations: $ => repeat1(_docLine),
+    documentations: $ => repeat1($._docLine),
     annotation_block: $ => seq(
       '[',
       repeat($.annotation_attribute),
