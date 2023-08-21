@@ -539,10 +539,6 @@
       "required": true,
       "types": [
         {
-          "type": "literal",
-          "named": true
-        },
-        {
           "type": "literal_segment",
           "named": true
         }

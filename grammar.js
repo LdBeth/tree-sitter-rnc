@@ -161,9 +161,10 @@ module.exports = grammar({
       'inherit'),
     _inherit: $ => seq('inherit', '=', field('ns', $.identifier)),
 
-    literal: $ => choice(
+    literal: $ => $._literal,
+    _literal: $ => choice(
       $.literal_segment,
-      seq($.literal_segment, '~', $.literal)
+      seq($.literal_segment, '~', $._literal)
     ),
     literal_segment: $ => token(choice(
       seq("'", /[^'\n]*/, "'"),

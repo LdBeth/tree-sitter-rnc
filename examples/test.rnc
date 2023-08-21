@@ -16,7 +16,7 @@ channel.element =
         category.element? &
         skipDays.element? &
         item.element*
-    } >> s:what [ foo = "abc" ] >> b:ok [ then = "123" ]
+    } >> s:what [] >> b:ok [ then = "123" ]
 
 rfc822.date =
     xsd:string { pattern =
@@ -26,6 +26,18 @@ rfc822.date =
   "((UT)|(GMT)|(EST)|(EDT)|(CST)|(CDT)|(MST)|(MDT)|(PST)|(PDT)|([\+\-]\d{4}))"
    } - text
 
+x:entity [ name="picture" systemId="picture.jpeg" notation="jpeg" ]
+
+[ a:documentation [
+    """Waht's this? a "tiger"?"""
+  ]
+]
 foo = element foo { element * - this:* { string }* }
 foreignAttribute = attribute * - (rng:*|local:*) { text }
 
+[ m:name = "block" ]
+div {
+  p = pattern
+  ul = pattern
+  ol = pattern
+}

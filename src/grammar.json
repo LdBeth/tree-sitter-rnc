@@ -946,6 +946,10 @@
       ]
     },
     "literal": {
+      "type": "SYMBOL",
+      "name": "_literal"
+    },
+    "_literal": {
       "type": "CHOICE",
       "members": [
         {
@@ -965,7 +969,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "literal"
+              "name": "_literal"
             }
           ]
         }
