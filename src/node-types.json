@@ -118,27 +118,7 @@
       "required": true,
       "types": [
         {
-          "type": "annotation",
-          "named": true
-        },
-        {
-          "type": "choice_pattern",
-          "named": true
-        },
-        {
-          "type": "follow_annotation",
-          "named": true
-        },
-        {
-          "type": "group_pattern",
-          "named": true
-        },
-        {
-          "type": "interleave_pattern",
-          "named": true
-        },
-        {
-          "type": "primary",
+          "type": "pattern",
           "named": true
         },
         {
@@ -173,15 +153,15 @@
             "named": true
           },
           {
-            "type": "follow_annotation",
-            "named": true
-          },
-          {
             "type": "group_pattern",
             "named": true
           },
           {
             "type": "interleave_pattern",
+            "named": true
+          },
+          {
+            "type": "pattern",
             "named": true
           },
           {
@@ -274,27 +254,11 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "annotation",
-            "named": true
-          },
-          {
             "type": "choice_pattern",
-            "named": true
-          },
-          {
-            "type": "follow_annotation",
             "named": true
           },
           {
@@ -306,7 +270,7 @@
             "named": true
           },
           {
-            "type": "primary",
+            "type": "pattern",
             "named": true
           },
           {
@@ -325,6 +289,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -391,10 +365,6 @@
       "required": false,
       "types": [
         {
-          "type": "annotation",
-          "named": true
-        },
-        {
           "type": "annotation_element",
           "named": true
         },
@@ -418,9 +388,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
         {
           "type": "grammar_block",
           "named": true
@@ -437,27 +411,7 @@
       "required": true,
       "types": [
         {
-          "type": "annotation",
-          "named": true
-        },
-        {
-          "type": "choice_pattern",
-          "named": true
-        },
-        {
-          "type": "follow_annotation",
-          "named": true
-        },
-        {
-          "type": "group_pattern",
-          "named": true
-        },
-        {
-          "type": "interleave_pattern",
-          "named": true
-        },
-        {
-          "type": "primary",
+          "type": "pattern",
           "named": true
         },
         {
@@ -502,9 +456,13 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
         {
           "type": "include_block",
           "named": true
@@ -517,13 +475,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "annotation",
-          "named": true
-        },
         {
           "type": "define",
           "named": true
@@ -540,9 +494,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
         {
           "type": "include_block",
           "named": true
@@ -559,27 +517,7 @@
       "required": true,
       "types": [
         {
-          "type": "annotation",
-          "named": true
-        },
-        {
-          "type": "choice_pattern",
-          "named": true
-        },
-        {
-          "type": "follow_annotation",
-          "named": true
-        },
-        {
-          "type": "group_pattern",
-          "named": true
-        },
-        {
-          "type": "interleave_pattern",
-          "named": true
-        },
-        {
-          "type": "primary",
+          "type": "pattern",
           "named": true
         },
         {
@@ -650,7 +588,7 @@
     }
   },
   {
-    "type": "pattern_block",
+    "type": "pattern",
     "named": true,
     "fields": {},
     "children": {
@@ -678,7 +616,42 @@
           "named": true
         },
         {
+          "type": "pattern",
+          "named": true
+        },
+        {
           "type": "primary",
+          "named": true
+        },
+        {
+          "type": "repeated_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "choice_pattern",
+          "named": true
+        },
+        {
+          "type": "group_pattern",
+          "named": true
+        },
+        {
+          "type": "interleave_pattern",
+          "named": true
+        },
+        {
+          "type": "pattern",
           "named": true
         },
         {
@@ -748,15 +721,15 @@
           "named": true
         },
         {
-          "type": "follow_annotation",
-          "named": true
-        },
-        {
           "type": "group_pattern",
           "named": true
         },
         {
           "type": "interleave_pattern",
+          "named": true
+        },
+        {
+          "type": "pattern",
           "named": true
         },
         {
@@ -779,10 +752,6 @@
       "required": false,
       "types": [
         {
-          "type": "annotation",
-          "named": true
-        },
-        {
           "type": "annotation_element",
           "named": true
         },
@@ -796,10 +765,6 @@
         },
         {
           "type": "define",
-          "named": true
-        },
-        {
-          "type": "follow_annotation",
           "named": true
         },
         {
@@ -819,7 +784,7 @@
           "named": true
         },
         {
-          "type": "primary",
+          "type": "pattern",
           "named": true
         },
         {

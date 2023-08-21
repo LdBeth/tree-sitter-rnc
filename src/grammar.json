@@ -17,7 +17,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_pattern"
+              "name": "_innerPattern"
             },
             {
               "type": "REPEAT",
@@ -142,36 +142,19 @@
           "name": "annotation_element"
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "annotation"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "define"
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "define"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "grammar_div"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "include"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "grammar_div"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "include"
             }
           ]
         }
@@ -180,6 +163,18 @@
     "grammar_div": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "annotation"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "div"
@@ -213,6 +208,18 @@
     "include": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "annotation"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "include"
@@ -255,18 +262,6 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "annotation"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
               "name": "define"
             },
             {
@@ -285,6 +280,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "annotation"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "div"
         },
@@ -297,6 +304,18 @@
     "define": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "annotation"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "FIELD",
           "name": "name",
@@ -327,17 +346,17 @@
           "name": "body",
           "content": {
             "type": "SYMBOL",
-            "name": "_pattern"
+            "name": "_innerPattern"
           }
         }
       ]
     },
-    "_pattern": {
+    "_innerPattern": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_annotatedPrimary"
+          "name": "pattern"
         },
         {
           "type": "SYMBOL",
@@ -388,7 +407,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_pattern"
+                  "name": "_innerPattern"
                 },
                 {
                   "type": "STRING",
@@ -400,7 +419,7 @@
         }
       ]
     },
-    "_annotatedPrimary": {
+    "pattern": {
       "type": "SEQ",
       "members": [
         {
@@ -633,7 +652,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_pattern"
+          "name": "_innerPattern"
         },
         {
           "type": "STRING",
@@ -729,7 +748,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_annotatedPrimary"
+          "name": "pattern"
         },
         {
           "type": "SYMBOL",
@@ -1268,8 +1287,16 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "documentations"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "documentations"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             },
             {
               "type": "SYMBOL",

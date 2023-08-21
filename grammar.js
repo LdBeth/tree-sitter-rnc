@@ -25,7 +25,7 @@ module.exports = grammar({
   rules: {
     source_file: $ => seq(
       repeat($.declare),
-      choice($._pattern, repeat($._grammarContent))
+      choice($._innerPattern, repeat($._grammarContent))
     ),
 
     declare: $ => choice(
@@ -43,19 +43,20 @@ module.exports = grammar({
 
     _grammarContent: $ => choice(
       $.annotation_element,
-      seq(
-        optional($.annotation),
-        choice(
-          $.define,
-          $.grammar_div,
-          $.include))
+      choice(
+        $.define,
+        $.grammar_div,
+        $.include)
     ),
 
-    grammar_div: $ => seq('div', $.grammar_block),
+    grammar_div: $ => seq(
+      optional($.annotation),
+      'div', $.grammar_block),
 
     grammar_block: $ => seq('{', repeat($._grammarContent), '}'),
 
     include: $ => seq(
+      optional($.annotation),
       'include',
       field('uri', $._literal),
       optional($._inherit),
@@ -64,20 +65,20 @@ module.exports = grammar({
 
     include_block: $ => seq(
       '{',
-      optional($.annotation),
       choice($.define, $.include_div),
       '}'),
 
-    include_div: $ => seq('div', $.include_block),
+    include_div: $ => seq(optional($.annotation), 'div', $.include_block),
 
     define: $ => seq(
+      optional($.annotation),
       field('name', $.identifier),
       choice('=', '|=', '&='),
-      field('body', $._pattern)
+      field('body', $._innerPattern)
     ),
 
-    _pattern: $ => choice(
-      $._annotatedPrimary,
+    _innerPattern: $ => choice(
+      $.pattern,
       $.choice_pattern,
       $.group_pattern,
       $.interleave_pattern,
@@ -88,10 +89,10 @@ module.exports = grammar({
       optional($.annotation),
       choice(
         $.primary,
-        seq('(', $._pattern, ')')),
+        seq('(', $._innerPattern, ')')),
     ),
 
-    _annotatedPrimary: $ => seq(
+    pattern: $ => seq(
       $._primaryPattern, repeat($.follow_annotation)),
 
     primary: $ => choice(
@@ -119,7 +120,7 @@ module.exports = grammar({
           optional(seq('-', field('except', $._primaryPattern))))
     ),
 
-    pattern_block: $ => seq('{', $._pattern, '}'),
+    pattern_block: $ => seq('{', $._innerPattern, '}'),
 
     param_block: $ => seq('{', repeat($.param), '}'),
     param: $ => seq(
@@ -130,7 +131,7 @@ module.exports = grammar({
 
     repeated_pattern: $ => seq($._primaryPattern, choice('*', '+', '?')),
 
-    _particle: $ => choice($._annotatedPrimary, $.repeated_pattern),
+    _particle: $ => choice($.pattern, $.repeated_pattern),
 
     choice_pattern: $ => $._patternChoice,
     group_pattern: $ =>  $._patternGroup,
@@ -206,7 +207,7 @@ module.exports = grammar({
 
     annotation: $ => choice(
       $.documentations,
-      seq($.documentations, $.annotation_block)
+      seq(optional($.documentations), $.annotation_block)
     ),
 
     documentations: $ => repeat1($._docLine),
