@@ -1,21 +1,55 @@
 [
   {
-    "type": "datatypeName",
+    "type": "annotation",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "annotation_block",
+          "named": true
+        },
+        {
+          "type": "documentations",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "declares",
+    "type": "annotation_attribute",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "element_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "literal_segment",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "annotation_block",
     "named": true,
     "fields": {},
     "children": {
@@ -23,14 +57,216 @@
       "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "annotation_attribute",
           "named": true
         },
         {
-          "type": "literal",
+          "type": "annotation_element",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "annotation_element",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_element_block",
+          "named": true
+        },
+        {
+          "type": "element_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotation_element_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation_attribute",
+          "named": true
+        },
+        {
+          "type": "annotation_element",
+          "named": true
+        },
+        {
+          "type": "literal_segment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "choice_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "choice_pattern",
+          "named": true
+        },
+        {
+          "type": "follow_annotation",
+          "named": true
+        },
+        {
+          "type": "group_pattern",
+          "named": true
+        },
+        {
+          "type": "interleave_pattern",
+          "named": true
+        },
+        {
+          "type": "primary",
+          "named": true
+        },
+        {
+          "type": "repeated_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "datatype",
+    "named": true,
+    "fields": {
+      "except": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "annotation",
+            "named": true
+          },
+          {
+            "type": "choice_pattern",
+            "named": true
+          },
+          {
+            "type": "follow_annotation",
+            "named": true
+          },
+          {
+            "type": "group_pattern",
+            "named": true
+          },
+          {
+            "type": "interleave_pattern",
+            "named": true
+          },
+          {
+            "type": "primary",
+            "named": true
+          },
+          {
+            "type": "repeated_pattern",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "datatype_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "literal_segment",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "param_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "datatype_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "declare",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "uri": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "inherit",
+            "named": false
+          },
+          {
+            "type": "literal_segment",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -38,11 +274,43 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
-            "type": "pattern",
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "annotation",
+            "named": true
+          },
+          {
+            "type": "choice_pattern",
+            "named": true
+          },
+          {
+            "type": "follow_annotation",
+            "named": true
+          },
+          {
+            "type": "group_pattern",
+            "named": true
+          },
+          {
+            "type": "interleave_pattern",
+            "named": true
+          },
+          {
+            "type": "primary",
+            "named": true
+          },
+          {
+            "type": "repeated_pattern",
             "named": true
           }
         ]
@@ -60,12 +328,108 @@
     }
   },
   {
-    "type": "identifier",
+    "type": "documentations",
     "named": true,
     "fields": {}
   },
   {
-    "type": "literal",
+    "type": "element_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "external",
+    "named": true,
+    "fields": {
+      "ns": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "uri": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "literal_segment",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "follow_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation_element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "grammar_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "annotation_element",
+          "named": true
+        },
+        {
+          "type": "define",
+          "named": true
+        },
+        {
+          "type": "grammar_div",
+          "named": true
+        },
+        {
+          "type": "include",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "grammar_div",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "grammar_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "group_pattern",
     "named": true,
     "fields": {},
     "children": {
@@ -73,11 +437,153 @@
       "required": true,
       "types": [
         {
-          "type": "literal",
+          "type": "annotation",
           "named": true
         },
         {
-          "type": "literalSegment",
+          "type": "choice_pattern",
+          "named": true
+        },
+        {
+          "type": "follow_annotation",
+          "named": true
+        },
+        {
+          "type": "group_pattern",
+          "named": true
+        },
+        {
+          "type": "interleave_pattern",
+          "named": true
+        },
+        {
+          "type": "primary",
+          "named": true
+        },
+        {
+          "type": "repeated_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "include",
+    "named": true,
+    "fields": {
+      "ns": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "uri": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "literal_segment",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "include_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "include_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "define",
+          "named": true
+        },
+        {
+          "type": "include_div",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "include_div",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "include_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interleave_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "choice_pattern",
+          "named": true
+        },
+        {
+          "type": "follow_annotation",
+          "named": true
+        },
+        {
+          "type": "group_pattern",
+          "named": true
+        },
+        {
+          "type": "interleave_pattern",
+          "named": true
+        },
+        {
+          "type": "primary",
+          "named": true
+        },
+        {
+          "type": "repeated_pattern",
           "named": true
         }
       ]
@@ -89,26 +595,144 @@
     "fields": {}
   },
   {
-    "type": "nameClass",
+    "type": "param",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "literal_segment",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "param_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "param",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_block",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "choice_pattern",
+          "named": true
+        },
+        {
+          "type": "follow_annotation",
+          "named": true
+        },
+        {
+          "type": "group_pattern",
+          "named": true
+        },
+        {
+          "type": "interleave_pattern",
+          "named": true
+        },
+        {
+          "type": "primary",
+          "named": true
+        },
+        {
+          "type": "repeated_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "primary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "datatype",
+          "named": true
+        },
+        {
+          "type": "external",
+          "named": true
+        },
+        {
+          "type": "follow_annotation",
+          "named": true
+        },
+        {
+          "type": "grammar_block",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
         {
           "type": "name",
           "named": true
         },
         {
-          "type": "nameClass",
+          "type": "pattern_block",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "param",
+    "type": "repeated_pattern",
     "named": true,
     "fields": {},
     "children": {
@@ -116,46 +740,31 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "annotation",
           "named": true
         },
         {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "pattern",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "datatypeName",
+          "type": "choice_pattern",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "follow_annotation",
           "named": true
         },
         {
-          "type": "literal",
+          "type": "group_pattern",
           "named": true
         },
         {
-          "type": "nameClass",
+          "type": "interleave_pattern",
           "named": true
         },
         {
-          "type": "param",
+          "type": "primary",
           "named": true
         },
         {
-          "type": "pattern",
+          "type": "repeated_pattern",
           "named": true
         }
       ]
@@ -170,7 +779,19 @@
       "required": false,
       "types": [
         {
-          "type": "declares",
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "annotation_element",
+          "named": true
+        },
+        {
+          "type": "choice_pattern",
+          "named": true
+        },
+        {
+          "type": "declare",
           "named": true
         },
         {
@@ -178,7 +799,31 @@
           "named": true
         },
         {
-          "type": "pattern",
+          "type": "follow_annotation",
+          "named": true
+        },
+        {
+          "type": "grammar_div",
+          "named": true
+        },
+        {
+          "type": "group_pattern",
+          "named": true
+        },
+        {
+          "type": "include",
+          "named": true
+        },
+        {
+          "type": "interleave_pattern",
+          "named": true
+        },
+        {
+          "type": "primary",
+          "named": true
+        },
+        {
+          "type": "repeated_pattern",
           "named": true
         }
       ]
@@ -229,11 +874,23 @@
     "named": false
   },
   {
+    "type": ">>",
+    "named": false
+  },
+  {
     "type": "?",
     "named": false
   },
   {
+    "type": "[",
+    "named": false
+  },
+  {
     "type": "\\",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {
@@ -285,7 +942,7 @@
     "named": false
   },
   {
-    "type": "literalSegment",
+    "type": "literal_segment",
     "named": true
   },
   {

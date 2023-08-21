@@ -4,56 +4,121 @@ module.exports = grammar({
     /\s/,
     $.comment
   ],
+  word: $ => $._NCName,
   rules: {
     source_file: $ => seq(
-      repeat($.declares),
-      choice($.pattern, repeat($._grammarContent))
+      repeat($.declare),
+      choice($._pattern, repeat($._grammarContent))
     ),
 
-    declares: $ => choice(
-      seq('namespace', $.identifier, '=', $._namespaceURILiteral),
-      seq('default', 'namespace', optional($.identifier), '=', $._namespaceURILiteral),
-      seq('datatypes', $.identifier, '=', $.literal)
+    declare: $ => choice(
+      seq('namespace',
+          field('name', $.identifier),
+          '=',
+          field('uri', $._namespaceURILiteral)),
+      seq('default', 'namespace',
+          optional(field('name', $.identifier)),
+          '=',
+          field('uri', $._namespaceURILiteral)),
+      seq('datatypes', field('name', $.identifier),
+          '=', field('uri', $._literal))
     ),
 
     _grammarContent: $ => choice(
-      $.define, // TODO
+      $.annotation_element,
+      seq(
+        optional($.annotation),
+        choice(
+          $.define,
+          $.grammar_div,
+          $.include))
     ),
+
+    grammar_div: $ => seq('div', $.grammar_block),
+
+    grammar_block: $ => seq('{', repeat($._grammarContent), '}'),
+
+    include: $ => seq(
+      'include',
+      field('uri', $._literal),
+      optional($._inherit),
+      $.include_block
+    ),
+
+    include_block: $ => seq(
+      '{',
+      optional($.annotation),
+      choice($.define, $.include_div),
+      '}'),
+
+    include_div: $ => seq('div', $.include_block),
 
     define: $ => seq(
       field('name', $.identifier),
       choice('=', '|=', '&='),
-      field('body', $.pattern)
+      field('body', $._pattern)
     ),
 
-    pattern: $ => choice(
-      $._primaryPattern,
-      $._patternChoice,
-      $._patternGroup,
-      $._patternInterleave,
-      $._repeatedPattern
+    _pattern: $ => choice(
+      $._annotatedPrimary,
+      $.choice_pattern,
+      $.group_pattern,
+      $.interleave_pattern,
+      $.repeated_pattern,
     ),
 
-    _primaryPattern: $ => choice(
-      seq('element', $.nameClass, '{', $.pattern, '}'),
-      seq('attribute', $.nameClass, '{', $.pattern, '}'),
-      seq('list', '{', $.pattern, '}'),
-      seq('mixed', '{', $.pattern, '}'),
-      seq('parent', $.identifier),
+    _primaryPattern: $ => seq(
+      optional($.annotation),
+      choice(
+        $.primary,
+        seq('(', $._pattern, ')')),
+    ),
+
+    _annotatedPrimary: $ => seq(
+      $._primaryPattern, repeat($.follow_annotation)),
+
+    primary: $ => choice(
+      seq('element', $._nameClass, $.pattern_block),
+      seq('attribute', $._nameClass, $.pattern_block),
+      seq('list', $.pattern_block),
+      seq('mixed', $.pattern_block),
       $.identifier,
-      seq(optional($.datatypeName), $.literal),
-      seq($.datatypeName,
-          optional(seq('{', repeat($.param), '}')),
-          optional(seq('-', $._primaryPattern))),
-      seq('(', $.pattern, ')'),
+      $.datatype,
+      seq('parent', $.identifier),
+      seq('grammar',  $.grammar_block),
+      $.external
     ),
 
-    param: $ => seq($.identifier, '=', $.literal), 
+    external: $ => seq(
+      'external',
+      field('uri', $._literal),
+      $._inherit
+    ),
+    datatype: $ => choice(
+      seq(optional(field('name', $.datatype_name)),
+          field('value', $._literal)),
+      seq(field('name', $.datatype_name),
+          optional($.param_block),
+          optional(seq('-', field('except', $._primaryPattern))))
+    ),
 
-    _repeatedPattern: $ => seq($._primaryPattern, choice('*', '+', '?')),
+    pattern_block: $ => seq('{', $._pattern, '}'),
 
-    _particle: $ => choice($._primaryPattern, $._repeatedPattern),
-    
+    param_block: $ => seq('{', repeat($.param), '}'),
+    param: $ => seq(
+      optional($.annotation),
+      field('name', $.identifier),
+      '=',
+      field('value', $._literal)),
+
+    repeated_pattern: $ => seq($._primaryPattern, choice('*', '+', '?')),
+
+    _particle: $ => choice($._annotatedPrimary, $.repeated_pattern),
+
+    choice_pattern: $ => $._patternChoice,
+    group_pattern: $ =>  $._patternGroup,
+    interleave_pattern: $ => $._patternInterleave,
+
     _patternChoice: $ => choice(
       seq($._particle, '|', $._particle),
       seq($._particle, '|', $._patternChoice),
@@ -70,27 +135,32 @@ module.exports = grammar({
     ),
 
     _namespaceURILiteral: $ => choice(
-      $.literal,
+      $._literal,
       'inherit'),
+    _inherit: $ => seq('inherit', '=', field('ns', $.identifier)),
 
-    literal: $ => choice(
-      $.literalSegment,
-      seq($.literalSegment, '~', $.literal)
+    _literal: $ => choice(
+      $.literal_segment,
+      seq($.literal_segment, '~', $._literal)
     ),
-    literalSegment: $ => token(choice(
+    literal_segment: $ => token(choice(
       seq("'", /[^'\n]*/, "'"),
-      seq('"', /[^"\n]*/, '"')
+      seq('"', /[^"\n]*/, '"'),
+      seq('"""', /("?"?[^"])*/, '"""'),
+      seq("'''", /('?'?[^"])*/, "'''")
     )),
 
-    nameClass: $ => choice(
+    _nameClass: $ => choice(
+      seq($._simpleNameClass, repeat($.follow_annotation)),
       $._nameClassChoice,
-      $._simpleNameClass,
-      seq($.name, '-', $.nameClass)
+      seq($._exceptNameClass, repeat($.follow_annotation)),
     ),
 
-    _simpleNameClass: $ => choice(
-      $.name,
-      seq('(', $.nameClass, ')')
+    _simpleNameClass: $ => seq(
+      optional($.annotation),
+      choice(
+        $.name,
+        seq('(', $._nameClass, ')')),
     ),
 
     _nameClassChoice: $ => choice(
@@ -98,20 +168,59 @@ module.exports = grammar({
       seq($._simpleNameClass, '|', $._nameClassChoice),
     ),
 
-    datatypeName: $ => choice(
-      seq($.identifier, ':', $.identifier),
-      'string', 'token'),
+    _exceptNameClass: $ => seq(
+      optional($.annotation),
+      $.name, '-', $._simpleNameClass,
+    ),
+
+    datatype_name: $ => choice($._CName, 'string', 'token'),
 
 
     identifier: $ => choice($._NCName, seq('\\', $._NCName)),
     name: $ => choice(
       $._NCName,
       seq('\\', $._NCName),
-      seq($._NCName, ':', $._NCName),
+      $._CName,
       seq($._NCName, ':*'),
       '*'
     ),
+    _CName: $ => seq($._NCName, ':', $._NCName),
     _NCName: $ => /[_0-9A-Za-z][_0-9A-Za-z\-\.]*/,
+
+    annotation: $ => choice(
+      $.documentations,
+      seq($.documentations, $.annotation_block)
+    ),
+
+    documentations: $ => repeat1($._docLine),
+    annotation_block: $ => seq(
+      '[',
+      repeat($.annotation_attribute),
+      repeat($.annotation_element),
+      ']'),
+    annotation_attribute: $ => seq(
+      field('name', $.element_name),
+      '=',
+      field('value', $._literal)),
+    annotation_element: $ => seq(
+      $.element_name,
+      $.annotation_element_block
+    ),
+    annotation_element_block: $ => seq(
+      '[',
+      repeat($.annotation_attribute),
+      repeat(choice($.annotation_element, $._literal)),
+      ']'),
+    element_name: $ => choice(
+      $._NCName,
+      seq('\\', $._NCName),
+      $._CName
+    ),
+
+    follow_annotation: $ => seq(
+      '>>', $.annotation_element
+    ),
+
     _keyword: $ => choice(
       'attribute',
       'default',
@@ -133,7 +242,8 @@ module.exports = grammar({
       'text',
       'token'),
 
-    comment: $ => token(/#.*/)
+    comment: $ => token(prec(-10, /#.*/)),
+    _docLine: $ => token(/##.*/)
   }
 });
 /*
