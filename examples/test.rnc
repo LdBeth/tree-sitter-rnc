@@ -1,22 +1,24 @@
 datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
 
 channel.element =
-    ## Documentation
-    ## Second line
-    element channel {
-        title.element &
-        link.element &
-        atom.link.element+ &
-        ## Doc2
-        ## Line 2
-        language.element? &
-        [ b:ok [ "Nice!" ]
-        ]
-        managing-editor.element? &
-        category.element? &
-        skipDays.element? &
-        item.element*
-    } >> s:what [] >> b:ok [ then = "123" ]
+  ## Documentation
+  ## Second line
+  element channel {
+    title.element &
+    link.element &
+    atom.link.element+ &
+    ## Doc2
+    ## Line 2
+    language.element? &
+    [ b:ok [ "Nice!" ]
+    ]
+    managing-editor.element? &
+    # Foo
+    # Fo
+    category.element? &
+    skipDays.element? &
+    item.element*
+  } >> s:what [] >> b:ok [ then = "123" ]
 
 rfc822.date =
     xsd:string { pattern =
@@ -26,7 +28,8 @@ rfc822.date =
   "((UT)|(GMT)|(EST)|(EDT)|(CST)|(CDT)|(MST)|(MDT)|(PST)|(PDT)|([\+\-]\d{4}))"
    } - text
 
-x:entity [ name="picture" systemId="picture.jpeg" notation="jpeg" ]
+x:entity [ name="picture"
+  systemId="picture.jpeg" notation="jpeg" ]
 
 [ a:documentation [
     """Waht's this? a "tiger"?"""
