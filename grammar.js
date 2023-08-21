@@ -234,9 +234,9 @@ module.exports = grammar({
       field('value', $.literal)),
     annotation_element: $ => seq(
       alias($.element_name, $.name),
-      $.annotation_element_block
+      $.annotation_element_body
     ),
-    annotation_element_block: $ => seq(
+    annotation_element_body: $ => seq(
       '[',
       repeat($.annotation_attribute),
       repeat(choice($.annotation_element, $.literal)),
