@@ -20,6 +20,8 @@
 "text"
 "token" ] @keyword
 
+["=" "&=" "|=" "*" "?" "+" "-" "~" "&" "," "|" ] @operator
+
 (datatype_name) @type
 
 (literal_segment) @string
