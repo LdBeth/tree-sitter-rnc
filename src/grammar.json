@@ -499,6 +499,18 @@
           ]
         },
         {
+          "type": "STRING",
+          "value": "empty"
+        },
+        {
+          "type": "STRING",
+          "value": "text"
+        },
+        {
+          "type": "STRING",
+          "value": "notAllowed"
+        },
+        {
           "type": "SYMBOL",
           "name": "identifier"
         },

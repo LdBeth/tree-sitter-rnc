@@ -100,6 +100,7 @@ module.exports = grammar({
       seq('attribute', $._nameClass, $.pattern_block),
       seq('list', $.pattern_block),
       seq('mixed', $.pattern_block),
+      'empty', 'text', 'notAllowed',
       $.identifier,
       $.datatype,
       seq('parent', $.identifier),
