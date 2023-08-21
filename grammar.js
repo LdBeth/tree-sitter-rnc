@@ -210,10 +210,11 @@ module.exports = grammar({
       $._NCName,
       $._QuotedName,
       $._CName,
-      token(seq(NCNAME, ':*')),
+      seq(field('ns', $.prefix), token.immediate(':*')),
       '*'
     ),
-    _CName: _ => token(seq(NCNAME, ':', NCNAME)),
+    _CName: $ => seq(field('ns', $.prefix), token.immediate(seq(':', NCNAME))),
+    prefix: $ => $._NCName,
     _NCName: _ => NCNAME,
     _QuotedName: _ => token(seq('\\', NCNAME)),
 
@@ -229,11 +230,11 @@ module.exports = grammar({
       repeat($.annotation_element),
       ']'),
     annotation_attribute: $ => seq(
-      field('name', $.element_name),
+      field('name', alias($._element_name, $.name)),
       '=',
       field('value', $.literal)),
     annotation_element: $ => seq(
-      $.element_name,
+      alias($._element_name, $.name),
       $.annotation_element_block
     ),
     annotation_element_block: $ => seq(
@@ -241,9 +242,9 @@ module.exports = grammar({
       repeat($.annotation_attribute),
       repeat(choice($.annotation_element, $.literal)),
       ']'),
-    element_name: $ => choice(
+    _element_name: $ => choice(
       $._NCName,
-      seq('\\', $._NCName),
+      $._QuotedName,
       $._CName
     ),
 

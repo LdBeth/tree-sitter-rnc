@@ -27,7 +27,7 @@
         "required": true,
         "types": [
           {
-            "type": "element_name",
+            "type": "name",
             "named": true
           }
         ]
@@ -76,7 +76,7 @@
           "named": true
         },
         {
-          "type": "element_name",
+          "type": "name",
           "named": true
         }
       ]
@@ -188,7 +188,18 @@
   {
     "type": "datatype_name",
     "named": true,
-    "fields": {}
+    "fields": {
+      "ns": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "prefix",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "declare",
@@ -274,11 +285,6 @@
   },
   {
     "type": "documentations",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "element_name",
     "named": true,
     "fields": {}
   },
@@ -548,7 +554,18 @@
   {
     "type": "name",
     "named": true,
-    "fields": {}
+    "fields": {
+      "ns": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "prefix",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "param",
@@ -674,6 +691,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "prefix",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "primary",
@@ -852,6 +874,10 @@
     "named": false
   },
   {
+    "type": ":*",
+    "named": false
+  },
+  {
     "type": "=",
     "named": false
   },
@@ -865,10 +891,6 @@
   },
   {
     "type": "[",
-    "named": false
-  },
-  {
-    "type": "\\",
     "named": false
   },
   {

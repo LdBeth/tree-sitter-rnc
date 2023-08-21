@@ -22,7 +22,8 @@
 
 ["=" "&=" "|=" "*" "?" "+" "-" "~" "&" "," "|" ] @operator
 
-(datatype_name) @type
+(datatype_name ns: (prefix) @type) 
+(name ns: (prefix)  @type)
 
 (literal_segment) @string
 
