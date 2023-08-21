@@ -918,10 +918,6 @@
     "named": false
   },
   {
-    "type": "empty",
-    "named": false
-  },
-  {
     "type": "external",
     "named": false
   },
@@ -954,23 +950,11 @@
     "named": false
   },
   {
-    "type": "notAllowed",
-    "named": false
-  },
-  {
     "type": "parent",
     "named": false
   },
   {
-    "type": "start",
-    "named": false
-  },
-  {
     "type": "string",
-    "named": false
-  },
-  {
-    "type": "text",
     "named": false
   },
   {
