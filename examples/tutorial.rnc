@@ -1,0 +1,12 @@
+start =
+  element doc {
+    (element p { inline }
+     | grammar {
+         include "table.rnc" {
+           cell.content = parent inline
+         }
+       })*
+  }
+inline =
+  (text
+   | element em { inline })*

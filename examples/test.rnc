@@ -15,28 +15,36 @@ channel.element =
     managing-editor.element? &
     # Foo
     # Fo
+    # F
     category.element? &
     skipDays.element? &
     item.element*
-  } >> s:what [] >> b:ok [ then = "123" ]
+  } >> s:what []
+    >> b:ok [ then = "123" ]
 
 rfc822.date =
-    xsd:string { pattern =
-  "(((Mon)|(Tue)|(Wed)|(Thu)|(Fri)|(Sat)|(Sun)), )?\d{1,2} " ~
-  "((Jan)|(Feb)|(Mar)|(Apr)|(May)|(Jun)|(Jul)|(Aug)|(Sep)|(Oct)|(Nov)|(Dec)) " ~
-  "\d{4} \d{2}:\d{2}(:\d{2})? " ~
-  "((UT)|(GMT)|(EST)|(EDT)|(CST)|(CDT)|(MST)|(MDT)|(PST)|(PDT)|([\+\-]\d{4}))"
-   } - text
+  xsd:string { pattern =
+    "(((Mon)|(Tue)|(Wed)|(Thu)|(Fri)|(Sat)|(Sun)), )?\d{1,2} " ~
+    "((Jan)|(Feb)|(Mar)|(Apr)|(May)|(Jun)|(Jul)|(Aug)|(Sep)|(Oct)|(Nov)|(Dec)) " ~
+    "\d{4} \d{2}:\d{2}(:\d{2})? " ~
+    "((UT)|(GMT)|(EST)|(EDT)|(CST)|(CDT)|(MST)|(MDT)|(PST)|(PDT)|([\+\-]\d{4}))"
+  } - text
 
 x:entity [ name="picture"
   systemId="picture.jpeg" notation="jpeg" ]
 
 [ a:documentation [
-    """Waht's this? a "tiger"?"""
+    url="today is good"
+    s:assert [
+      test = "@version"
+      """Waht's this? a "tiger"?"""
+    ]
   ]
 ]
 foo = element foo { element * - this:* { string }* }
-foreignAttribute = attribute * - (rng:*|local:*) { text }
+foreignAttribute =
+  attribute * -
+            (rng:* | local:*) { text }
 
 [ m:name = "block" ]
 div {
