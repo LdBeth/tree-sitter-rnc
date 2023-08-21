@@ -1,0 +1,203 @@
+# Symbulator Documentation Schema
+#
+# Copyright 2023 LdBeth
+namespace xi = "http://www.w3.org/2001/XInclude"
+namespace s = "http://purl.oclc.org/dsdl/schematron"
+default namespace sydoc = "http://symbulator.com/sydoc"
+
+s:ns [ prefix = "sd" uri = "http://symbulator.com/sydoc" ]
+
+start = sydocElement | chapterElement | practiceElement
+
+sydocElement =
+  element sydoc {
+    (chapterElement, practiceElement?)+
+  }
+
+chapterElement =
+  element chapter {
+    xmlAttr,
+    headElement,
+    metaElement?,
+    sectionBody?,
+    sectionElement*
+  } | xi.include
+
+practiceElement =
+  element practice {
+      xmlAttr,
+      headElement,
+      topElements*,
+      (problemElement+ | practiceSection+)
+  } | xi.include
+
+practiceSection =
+  element section {
+    (versionAttr & xmlAttr),
+    headElement,
+    topElements*,
+    problemElement+
+  }
+
+metaElement = element meta { text }
+
+sectionElement =
+  element section {
+    (versionAttr & xmlAttr),
+    altHead,
+    sectionBody?,
+    subsectionElement*
+  }
+
+subsectionElement =
+  element subsection {
+    versionAttr,
+    headElement,
+    sectionBody,
+    subsubsectionElement*
+  }
+
+subsubsectionElement =
+  element subsubsection {
+    versionAttr,
+    headElement,
+    sectionBody
+  }
+
+headElement = element title { mixed { markupTags* } }
+altTitle = element alt { text }
+altHead = headElement, altTitle?
+
+sectionBody = (topElements | problemElement | callout)+
+
+simpleHTML = topElements+
+topElements = paragraph | figure | codeblock | enum
+
+versionAttr = attribute version { "7" | "8" }?
+
+enum = element ul { liElement+ }
+
+liElement = element li { inlineElements }
+
+paragraph =
+    element p {
+      versionAttr,
+      inlineElements
+    }
+
+inlineElements = mixed { (markupTags | spanTags | enum)* }
+
+markupTags =
+  codeElement
+  | nameElement
+  | exprElement
+  | strongElement
+  | emphElement
+  | subElement
+  | supElement
+
+spanTags =
+  urlElement
+  | graftiiElement
+  | spanElement
+  | highlightElement
+
+codeElement =
+  [ s:pattern [
+      s:title [ "Remember use var tag" ]
+        s:rule [
+          context = "sd:code"
+          s:report [
+            test = "matches(., '^[a-z]+$')"
+            'Is "' s:value-of [select = "."] '" a variable or name? Use the correct tag'
+          ]
+        ]
+      ]
+  ]
+  element code { text }
+nameElement = element name { text }
+exprElement = element expr { text }
+strongElement =
+  [ s:pattern [
+      s:title [ "We don't want to abuse bold tag" ]
+        s:rule [
+          context = "sd:bold"
+          s:report [
+            test = "(string-length(.) le 3) and matches(., '^[a-z]+$')"
+            'Is "' s:value-of [select = "."] '" a variable? Use the var tag.'
+          ]
+          s:report [
+            test = "contains(., 's\')"
+            '"' s:value-of [select = "."] '" is a program name! Use the name tag.'
+          ]
+        ]
+      ]
+  ]
+  element bold { text }
+emphElement = element emph { text }
+urlElement = element a { hrefAttr, mixed { markupTags* } }
+hrefAttr = attribute href { xsd:anyURI { minLength = "1" } }
+graftiiElement =
+  element note {
+    simpleHTML
+  }
+spanElement = element span { versionAttr, inlineElements }
+highlightElement = element highlight { calloutTypeAttr, inlineElements }
+
+subElement = element sub { text }
+supElement = element sup { text }
+
+tagAttr = attribute id { text }
+srcAttr = attribute src { xsd:anyURI { minLength = "1" } }
+
+figure =
+  element fig {
+    (versionAttr
+    & tagAttr?
+    & srcAttr),
+    captionElement?
+  }
+
+captionElement = element caption { inlineElements }
+
+codeblock = input | output
+
+input = element input { versionAttr, text }
+output = element output { versionAttr, text }
+
+problemElement =
+  element problem {
+    versionAttr,
+    headElement,
+    questionElement,
+    solutionElement
+  }
+
+questionElement = element question { simpleHTML }
+solutionElement =
+  element solution {
+    (topElements | callout)+,
+    subsectionElement*
+  }
+
+callout =
+  element callout {
+    (versionAttr &
+     calloutTypeAttr?),
+    headElement,
+    simpleHTML
+  }
+
+calloutTypeAttr = attribute type { "green" | "yellow" | "red" | "blue" }
+
+xi.include.attlist =
+  attribute href { xsd:anyURI { pattern = "[^#]+" } }?,
+  attribute parse { "xml" | "text" }?,
+  attribute xpointer { text }?,
+  attribute encoding { text }?,
+  attribute accept { text }?,
+  attribute accept-language { text }?
+
+xi.include = element xi:include { xi.include.attlist }
+
+xmlAttr = attribute xml:* { text }*
