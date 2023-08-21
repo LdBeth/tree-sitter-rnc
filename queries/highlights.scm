@@ -15,7 +15,7 @@
 "namespace"
 "notAllowed"
 "parent"
-"start"
+;;"start"
 "string"
 "text"
 "token" ] @keyword
