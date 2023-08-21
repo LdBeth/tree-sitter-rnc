@@ -15,6 +15,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
+const NCNAME = /[_0-9A-Za-z][_0-9A-Za-z\-\.]*/;
+
 module.exports = grammar({
   name: 'rnc',
   extras: $ => [
@@ -38,7 +40,7 @@ module.exports = grammar({
           '=',
           field('uri', $._namespaceURILiteral)),
       seq('datatypes', field('name', $.identifier),
-          '=', field('uri', $._literal))
+          '=', field('uri', $.literal))
     ),
 
     _grammarContent: $ => choice(
@@ -58,7 +60,7 @@ module.exports = grammar({
     include: $ => seq(
       optional($.annotation),
       'include',
-      field('uri', $._literal),
+      field('uri', $.literal),
       optional($._inherit),
       $.include_block
     ),
@@ -110,15 +112,15 @@ module.exports = grammar({
 
     external: $ => seq(
       'external',
-      field('uri', $._literal),
+      field('uri', $.literal),
       $._inherit
     ),
     datatype: $ => choice(
       seq(optional(field('name', $.datatype_name)),
-          field('value', $._literal)),
+          field('value', $.literal)),
       seq(field('name', $.datatype_name),
-          optional($.param_block),
-          optional(seq('-', field('except', $._primaryPattern))))
+          optional(field('param', $.param_block)),
+          optional(seq('-', field('except', alias($._primaryPattern, $.pattern)))))
     ),
 
     pattern_block: $ => seq('{', $._innerPattern, '}'),
@@ -128,9 +130,10 @@ module.exports = grammar({
       optional($.annotation),
       field('name', $.identifier),
       '=',
-      field('value', $._literal)),
+      field('value', $.literal)),
 
-    repeated_pattern: $ => seq($._primaryPattern, choice('*', '+', '?')),
+    repeated_pattern: $ => seq(
+      alias($._primaryPattern, $.pattern), choice('*', '+', '?')),
 
     _particle: $ => choice($.pattern, $.repeated_pattern),
 
@@ -154,13 +157,13 @@ module.exports = grammar({
     ),
 
     _namespaceURILiteral: $ => choice(
-      $._literal,
+      $.literal,
       'inherit'),
     _inherit: $ => seq('inherit', '=', field('ns', $.identifier)),
 
-    _literal: $ => choice(
+    literal: $ => choice(
       $.literal_segment,
-      seq($.literal_segment, '~', $._literal)
+      seq($.literal_segment, '~', $.literal)
     ),
     literal_segment: $ => token(choice(
       seq("'", /[^'\n]*/, "'"),
@@ -170,10 +173,20 @@ module.exports = grammar({
     )),
 
     _nameClass: $ => choice(
-      seq($._simpleNameClass, repeat($.follow_annotation)),
-      $._nameClassChoice,
-      seq($._exceptNameClass, repeat($.follow_annotation)),
+      $.simple_name_class,
+      $.choice_name_class,
+      $.except_name_class
     ),
+
+    simple_name_class: $ => seq(
+      $._simpleNameClass,
+      repeat($.follow_annotation)),
+
+    except_name_class: $ => seq(
+      optional($.annotation),
+      field('name', $.name), '-',
+      field('except', alias($._simpleNameClass, $.simple_name_class)),
+      repeat($.follow_annotation)),
 
     _simpleNameClass: $ => seq(
       optional($.annotation),
@@ -182,29 +195,26 @@ module.exports = grammar({
         seq('(', $._nameClass, ')')),
     ),
 
+    choice_name_class: $ => $._nameClassChoice,
     _nameClassChoice: $ => choice(
-      seq($._simpleNameClass, '|', $._simpleNameClass),
-      seq($._simpleNameClass, '|', $._nameClassChoice),
-    ),
-
-    _exceptNameClass: $ => seq(
-      optional($.annotation),
-      $.name, '-', $._simpleNameClass,
+      seq($.simple_name_class, '|', $.simple_name_class),
+      seq($.simple_name_class, '|', $._nameClassChoice),
     ),
 
     datatype_name: $ => choice($._CName, 'string', 'token'),
 
 
-    identifier: $ => choice($._NCName, seq('\\', $._NCName)),
+    identifier: $ => choice($._NCName, $._QuotedName),
     name: $ => choice(
       $._NCName,
-      seq('\\', $._NCName),
+      $._QuotedName,
       $._CName,
-      seq($._NCName, ':*'),
+      token(seq(NCNAME, ':*')),
       '*'
     ),
-    _CName: $ => seq($._NCName, ':', $._NCName),
-    _NCName: $ => /[_0-9A-Za-z][_0-9A-Za-z\-\.]*/,
+    _CName: _ => token(seq(NCNAME, ':', NCNAME)),
+    _NCName: _ => NCNAME,
+    _QuotedName: _ => token(seq('\\', NCNAME)),
 
     annotation: $ => choice(
       $.documentations,
@@ -220,7 +230,7 @@ module.exports = grammar({
     annotation_attribute: $ => seq(
       field('name', $.element_name),
       '=',
-      field('value', $._literal)),
+      field('value', $.literal)),
     annotation_element: $ => seq(
       $.element_name,
       $.annotation_element_block
@@ -228,7 +238,7 @@ module.exports = grammar({
     annotation_element_block: $ => seq(
       '[',
       repeat($.annotation_attribute),
-      repeat(choice($.annotation_element, $._literal)),
+      repeat(choice($.annotation_element, $.literal)),
       ']'),
     element_name: $ => choice(
       $._NCName,

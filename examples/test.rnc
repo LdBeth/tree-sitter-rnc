@@ -1,31 +1,31 @@
 datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
 
 channel.element =
+    ## Documentation
+    ## Second line
     element channel {
         title.element &
         link.element &
-        description.element &
         atom.link.element+ &
-        generator.element? &
+        ## Doc2
+        ## Line 2
         language.element? &
-        copyright.element? &
+        [ b:ok [ "Nice!" ]
+        ]
         managing-editor.element? &
-        webmaster.element? &
-        pubdate.element? &
         category.element? &
-        last-build-date.element? &
-        docs.element? &
-        cloud.element? &
-        ttl.element? &
-        image.element? &
-        rating.element? &
-        text-input.element? &
-        skipHours.element? &
         skipDays.element? &
         item.element*
-    }
+    } >> s:what [ foo = "abc" ] >> b:ok [ then = "123" ]
 
 rfc822.date =
     xsd:string { pattern =
-  "(((Mon)|(Tue)|(Wed)|(Thu)|(Fri)|(Sat)|(Sun)), )?\d{1,2} ((Jan)|(Feb)|(Mar)|(Apr)|(May)|(Jun)|(Jul)|(Aug)|(Sep)|(Oct)|(Nov)|(Dec)) \d{4} \d{2}:\d{2}(:\d{2})? ((UT)|(GMT)|(EST)|(EDT)|(CST)|(CDT)|(MST)|(MDT)|(PST)|(PDT)|([\+\-]\d{4}))"
-}
+  "(((Mon)|(Tue)|(Wed)|(Thu)|(Fri)|(Sat)|(Sun)), )?\d{1,2} " ~
+  "((Jan)|(Feb)|(Mar)|(Apr)|(May)|(Jun)|(Jul)|(Aug)|(Sep)|(Oct)|(Nov)|(Dec)) " ~
+  "\d{4} \d{2}:\d{2}(:\d{2})? " ~
+  "((UT)|(GMT)|(EST)|(EDT)|(CST)|(CDT)|(MST)|(MDT)|(PST)|(PDT)|([\+\-]\d{4}))"
+   } - text
+
+foo = element foo { element * - this:* { string }* }
+foreignAttribute = attribute * - (rng:*|local:*) { text }
+

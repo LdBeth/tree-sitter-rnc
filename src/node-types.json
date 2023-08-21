@@ -33,16 +33,12 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "literal_segment",
+            "type": "literal",
             "named": true
-          },
-          {
-            "type": "~",
-            "named": false
           }
         ]
       }
@@ -103,7 +99,22 @@
           "named": true
         },
         {
-          "type": "literal_segment",
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "choice_name_class",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "simple_name_class",
           "named": true
         }
       ]
@@ -133,43 +144,11 @@
     "named": true,
     "fields": {
       "except": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "annotation",
-            "named": true
-          },
-          {
-            "type": "choice_pattern",
-            "named": true
-          },
-          {
-            "type": "group_pattern",
-            "named": true
-          },
-          {
-            "type": "interleave_pattern",
-            "named": true
-          },
-          {
             "type": "pattern",
-            "named": true
-          },
-          {
-            "type": "primary",
-            "named": true
-          },
-          {
-            "type": "repeated_pattern",
             "named": true
           }
         ]
@@ -184,30 +163,26 @@
           }
         ]
       },
-      "value": {
-        "multiple": true,
+      "param": {
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "literal_segment",
+            "type": "param_block",
             "named": true
-          },
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
           {
-            "type": "~",
-            "named": false
+            "type": "literal",
+            "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "param_block",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -230,7 +205,7 @@
         ]
       },
       "uri": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -238,12 +213,8 @@
             "named": false
           },
           {
-            "type": "literal_segment",
+            "type": "literal",
             "named": true
-          },
-          {
-            "type": "~",
-            "named": false
           }
         ]
       }
@@ -312,6 +283,46 @@
     "fields": {}
   },
   {
+    "type": "except_name_class",
+    "named": true,
+    "fields": {
+      "except": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "simple_name_class",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "follow_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "external",
     "named": true,
     "fields": {
@@ -326,16 +337,12 @@
         ]
       },
       "uri": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "literal_segment",
+            "type": "literal",
             "named": true
-          },
-          {
-            "type": "~",
-            "named": false
           }
         ]
       }
@@ -441,16 +448,12 @@
         ]
       },
       "uri": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "literal_segment",
+            "type": "literal",
             "named": true
-          },
-          {
-            "type": "~",
-            "named": false
           }
         ]
       }
@@ -528,6 +531,25 @@
     }
   },
   {
+    "type": "literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "literal_segment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "name",
     "named": true,
     "fields": {}
@@ -547,16 +569,12 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "literal_segment",
+            "type": "literal",
             "named": true
-          },
-          {
-            "type": "~",
-            "named": false
           }
         ]
       }
@@ -670,7 +688,7 @@
       "required": false,
       "types": [
         {
-          "type": "annotation",
+          "type": "choice_name_class",
           "named": true
         },
         {
@@ -678,11 +696,11 @@
           "named": true
         },
         {
-          "type": "external",
+          "type": "except_name_class",
           "named": true
         },
         {
-          "type": "follow_annotation",
+          "type": "external",
           "named": true
         },
         {
@@ -694,11 +712,11 @@
           "named": true
         },
         {
-          "type": "name",
+          "type": "pattern_block",
           "named": true
         },
         {
-          "type": "pattern_block",
+          "type": "simple_name_class",
           "named": true
         }
       ]
@@ -706,6 +724,21 @@
   },
   {
     "type": "repeated_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simple_name_class",
     "named": true,
     "fields": {},
     "children": {
@@ -717,27 +750,23 @@
           "named": true
         },
         {
-          "type": "choice_pattern",
+          "type": "choice_name_class",
           "named": true
         },
         {
-          "type": "group_pattern",
+          "type": "except_name_class",
           "named": true
         },
         {
-          "type": "interleave_pattern",
+          "type": "follow_annotation",
           "named": true
         },
         {
-          "type": "pattern",
+          "type": "name",
           "named": true
         },
         {
-          "type": "primary",
-          "named": true
-        },
-        {
-          "type": "repeated_pattern",
+          "type": "simple_name_class",
           "named": true
         }
       ]
@@ -824,14 +853,6 @@
   },
   {
     "type": "-",
-    "named": false
-  },
-  {
-    "type": ":",
-    "named": false
-  },
-  {
-    "type": ":*",
     "named": false
   },
   {
