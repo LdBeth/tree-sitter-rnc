@@ -238,27 +238,6 @@ module.exports = grammar({
       '>>', $.annotation_element
     ),
 
-    _keyword: $ => choice(
-      'attribute',
-      'default',
-      'datatypes',
-      'div',
-      'element',
-      'empty',
-      'external',
-      'grammar',
-      'include',
-      'inherit',
-      'list',
-      'mixed',
-      'namespace',
-      'notAllowed',
-      'parent',
-      'start',
-      'string',
-      'text',
-      'token'),
-
     comment: $ => token(prec(-10, /#.*/)),
     _docLine: $ => token(/##.*/)
   }
