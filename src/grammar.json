@@ -1347,8 +1347,11 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "documentations"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "documentation"
+          }
         },
         {
           "type": "SEQ",
@@ -1357,8 +1360,11 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "documentations"
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "documentation"
+                  }
                 },
                 {
                   "type": "BLANK"
@@ -1372,13 +1378,6 @@
           ]
         }
       ]
-    },
-    "documentations": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SYMBOL",
-        "name": "_docLine"
-      }
     },
     "annotation_block": {
       "type": "SEQ",
@@ -1532,7 +1531,7 @@
         }
       }
     },
-    "_docLine": {
+    "documentation": {
       "type": "TOKEN",
       "content": {
         "type": "PATTERN",

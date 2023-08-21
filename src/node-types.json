@@ -12,7 +12,7 @@
           "named": true
         },
         {
-          "type": "documentations",
+          "type": "documentation",
           "named": true
         }
       ]
@@ -282,11 +282,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "documentations",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "except_name_class",
@@ -916,6 +911,10 @@
   {
     "type": "div",
     "named": false
+  },
+  {
+    "type": "documentation",
+    "named": true
   },
   {
     "type": "element",

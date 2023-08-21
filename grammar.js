@@ -219,11 +219,10 @@ module.exports = grammar({
     _QuotedName: _ => token(seq('\\', NCNAME)),
 
     annotation: $ => choice(
-      $.documentations,
-      seq(optional($.documentations), $.annotation_block)
+      repeat1($.documentation),
+      seq(optional(repeat1($.documentation)), $.annotation_block)
     ),
 
-    documentations: $ => repeat1($._docLine),
     annotation_block: $ => seq(
       '[',
       repeat($.annotation_attribute),
@@ -253,7 +252,7 @@ module.exports = grammar({
     ),
 
     comment: $ => token(prec(-10, /#.*/)),
-    _docLine: $ => token(/##.*/)
+    documentation: $ => token(/##.*/)
   }
 });
 /*
