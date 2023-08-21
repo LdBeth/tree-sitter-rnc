@@ -1416,7 +1416,7 @@
             "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_element_name"
+              "name": "element_name"
             },
             "named": true,
             "value": "name"
@@ -1443,7 +1443,7 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_element_name"
+            "name": "element_name"
           },
           "named": true,
           "value": "name"
@@ -1490,7 +1490,7 @@
         }
       ]
     },
-    "_element_name": {
+    "element_name": {
       "type": "CHOICE",
       "members": [
         {
