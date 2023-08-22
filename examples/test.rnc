@@ -52,3 +52,6 @@ div {
   ul = pattern
   ol = pattern
 }
+
+start = \element
+\element = element element { text }
