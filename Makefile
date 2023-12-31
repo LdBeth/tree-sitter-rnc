@@ -1,4 +1,4 @@
-TREE_CLI := $(HOME)/.cargo/bin/tree-sitter
+TREE_CLI := tree-sitter
 EXAMPLE := examples/test.rnc
 LIBEXT := dylib
 TARGET := libtree-sitter-rnc.$(LIBEXT)

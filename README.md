@@ -4,6 +4,19 @@ Based on https://relaxng.org/compact.html with
 the attempt to make the grammar more readable when
 avoid ambiguity.
 
+# Installation
+
+This requires the Emacs 29 builtin `treesit.el` support.
+Compile and install the `libtree-sitter-rnc.$(LIBEXT)`
+to `treesit` search path, e.g. `~/.emacs.d/tree-sitter/`.
+
+```
+$ cc -fPIC -c -Isrc src/parser.c
+$ cc -fPIC -shared parser.o -o libtree-sitter-rnc.so
+```
+
+Copy `emacs/rnc-ts-mode.el` to Emacs load path.
+
 # Copying
 
 This program is free software: you can redistribute it and/or modify
