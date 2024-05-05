@@ -245,8 +245,16 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "include_block"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "include_block"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

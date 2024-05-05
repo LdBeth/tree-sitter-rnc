@@ -16,7 +16,7 @@
   "scripts": {
     "test": "tree-sitter test"
   },
-    "tree-sitter": [
+  "tree-sitter": [
     {
       "scope": "source.rnc",
       "file-types": [
