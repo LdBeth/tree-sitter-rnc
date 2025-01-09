@@ -1,12 +1,12 @@
 TREE_CLI := tree-sitter
-EXAMPLE := examples/test.rnc
 LIBEXT := dylib
 TARGET := libtree-sitter-rnc.$(LIBEXT)
 
 all: $(TARGET)
 
 test:
-	$(TREE_CLI) parse $(EXAMPLE)
+	$(TREE_CLI) test
+.PHONY: test
 
 generate:
 	$(TREE_CLI) generate

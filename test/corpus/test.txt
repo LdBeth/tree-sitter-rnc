@@ -1,0 +1,266 @@
+====
+Test
+====
+
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+channel.element =
+  ## Documentation
+  ## Second line
+  element channel {
+    title.element &
+    link.element &
+    atom.link.element+ &
+    ## Doc2
+    ## Line 2
+    language.element? &
+    [ b:ok [ "Nice!" ]
+    ]
+    managing-editor.element? &
+    # Foo
+    # Fo
+    # F
+    category.element? &
+    skipDays.element? &
+    item.element*
+  } >> s:what []
+    >> b:ok [ then = "123" ]
+
+rfc822.date =
+  xsd:string { pattern =
+    "(((Mon)|(Tue)|(Wed)|(Thu)|(Fri)|(Sat)|(Sun)), )?\d{1,2} " ~
+    "((Jan)|(Feb)|(Mar)|(Apr)|(May)|(Jun)|(Jul)|(Aug)|(Sep)|(Oct)|(Nov)|(Dec)) " ~
+    "\d{4} \d{2}:\d{2}(:\d{2})? " ~
+    "((UT)|(GMT)|(EST)|(EDT)|(CST)|(CDT)|(MST)|(MDT)|(PST)|(PDT)|([\+\-]\d{4}))"
+  } - text
+
+x:entity [ name="picture"
+  systemId="picture.jpeg" notation="jpeg" ]
+
+[ a:documentation [
+    url="today is good"
+    s:assert [
+      test = "@version"
+      """Waht's this? a "tiger"?"""
+    ]
+  ]
+]
+foo = element foo { element * - this:* { string }* }
+foreignAttribute =
+  attribute * -
+            (rng:* | local:*) { text }
+
+[ m:name = "block" ]
+div {
+  p = pattern
+  ul = pattern
+  ol = pattern
+}
+
+start = \element
+\element = element element { text }
+
+---
+
+(source_file
+  (declare
+    (identifier)
+    (literal
+      (literal_segment)))
+  (define
+    (identifier)
+    (pattern
+      (annotation
+        (documentation)
+        (documentation))
+      (primary
+        (simple_name_class
+          (name))
+        (pattern_block
+          (interleave_pattern
+            (pattern
+              (primary
+                (identifier)))
+            (pattern
+              (primary
+                (identifier)))
+            (repeated_pattern
+              (pattern
+                (primary
+                  (identifier))))
+            (repeated_pattern
+              (pattern
+                (annotation
+                  (documentation)
+                  (documentation))
+                (primary
+                  (identifier))))
+            (repeated_pattern
+              (pattern
+                (annotation
+                  (annotation_block
+                    (annotation_element
+                      (name
+                        (prefix))
+                      (annotation_element_block
+                        (literal
+                          (literal_segment))))))
+                (primary
+                  (identifier))))
+            (comment)
+            (comment)
+            (comment)
+            (repeated_pattern
+              (pattern
+                (primary
+                  (identifier))))
+            (repeated_pattern
+              (pattern
+                (primary
+                  (identifier))))
+            (repeated_pattern
+              (pattern
+                (primary
+                  (identifier)))))))
+      (follow_annotation
+        (annotation_element
+          (name
+            (prefix))
+          (annotation_element_block)))
+      (follow_annotation
+        (annotation_element
+          (name
+            (prefix))
+          (annotation_element_block
+            (annotation_attribute
+              (name)
+              (literal
+                (literal_segment))))))))
+  (define
+    (identifier)
+    (pattern
+      (primary
+        (datatype
+          (datatype_name
+            (prefix))
+          (param_block
+            (param
+              (identifier)
+              (literal
+                (literal_segment)
+                (literal_segment)
+                (literal_segment)
+                (literal_segment))))
+          (pattern
+            (primary))))))
+  (annotation_element
+    (name
+      (prefix))
+    (annotation_element_block
+      (annotation_attribute
+        (name)
+        (literal
+          (literal_segment)))
+      (annotation_attribute
+        (name)
+        (literal
+          (literal_segment)))
+      (annotation_attribute
+        (name)
+        (literal
+          (literal_segment)))))
+  (define
+    (annotation
+      (annotation_block
+        (annotation_element
+          (name
+            (prefix))
+          (annotation_element_block
+            (annotation_attribute
+              (name)
+              (literal
+                (literal_segment)))
+            (annotation_element
+              (name
+                (prefix))
+              (annotation_element_block
+                (annotation_attribute
+                  (name)
+                  (literal
+                    (literal_segment)))
+                (literal
+                  (literal_segment))))))))
+    (identifier)
+    (pattern
+      (primary
+        (simple_name_class
+          (name))
+        (pattern_block
+          (repeated_pattern
+            (pattern
+              (primary
+                (except_name_class
+                  (name)
+                  (simple_name_class
+                    (name
+                      (prefix))))
+                (pattern_block
+                  (pattern
+                    (primary
+                      (datatype
+                        (datatype_name))))))))))))
+  (define
+    (identifier)
+    (pattern
+      (primary
+        (except_name_class
+          (name)
+          (simple_name_class
+            (choice_name_class
+              (simple_name_class
+                (name
+                  (prefix)))
+              (simple_name_class
+                (name
+                  (prefix))))))
+        (pattern_block
+          (pattern
+            (primary))))))
+  (grammar_div
+    (annotation
+      (annotation_block
+        (annotation_attribute
+          (name
+            (prefix))
+          (literal
+            (literal_segment)))))
+    (grammar_block
+      (define
+        (identifier)
+        (pattern
+          (primary
+            (identifier))))
+      (define
+        (identifier)
+        (pattern
+          (primary
+            (identifier))))
+      (define
+        (identifier)
+        (pattern
+          (primary
+            (identifier))))))
+  (define
+    (identifier)
+    (pattern
+      (primary
+        (identifier))))
+  (define
+    (identifier)
+    (pattern
+      (primary
+        (simple_name_class
+          (name))
+        (pattern_block
+          (pattern
+            (primary)))))))
