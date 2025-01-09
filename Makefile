@@ -1,6 +1,6 @@
+LIBEXT ?= dylib
 TREE_CLI := tree-sitter
 EXAMPLE := examples/test.rnc
-LIBEXT := dylib
 TARGET := libtree-sitter-rnc.$(LIBEXT)
 
 all: $(TARGET)
