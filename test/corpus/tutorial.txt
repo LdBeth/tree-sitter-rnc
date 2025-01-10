@@ -1,0 +1,65 @@
+========
+Tutorial
+========
+
+start =
+  element doc {
+    (element p { inline }
+     | grammar {
+         include "table.rnc" {
+           cell.content = parent inline
+         }
+       })*
+  }
+inline =
+  (text
+   | element em { inline })*
+
+---
+
+(source_file
+  (define
+    (identifier)
+    (pattern
+      (primary
+        (simple_name_class
+          (name))
+        (pattern_block
+          (repeated_pattern
+            (pattern
+              (choice_pattern
+                (pattern
+                  (primary
+                    (simple_name_class
+                      (name))
+                    (pattern_block
+                      (pattern
+                        (primary
+                          (identifier))))))
+                (pattern
+                  (primary
+                    (grammar_block
+                      (include
+                        (literal
+                          (literal_segment))
+                        (include_block
+                          (define
+                            (identifier)
+                            (pattern
+                              (primary
+                                (identifier))))))))))))))))
+  (define
+    (identifier)
+    (repeated_pattern
+      (pattern
+        (choice_pattern
+          (pattern
+            (primary))
+          (pattern
+            (primary
+              (simple_name_class
+                (name))
+              (pattern_block
+                (pattern
+                  (primary
+                    (identifier)))))))))))

@@ -1,0 +1,196 @@
+======
+Test 2
+======
+
+inline = inline.class*
+inline.class =
+  text
+  | element bold { inline }
+  | element italic { inline }
+  | element code { inline }
+  | element em { inline }
+start =
+  element doc {
+    element p { inline }*
+  }
+
+start = inline
+inline =
+  (text
+   | element code { inline }
+   | element em { inline }
+     # etc
+     )*
+
+inline =
+  (text
+   | element bold { inline }
+   | element italic { inline }
+   | element span {
+       attribute style { text }?,
+       inline
+     })*
+
+db.valign.enumeration =
+  ## Aligned on the bottom of the region
+  "bottom"
+  | ## Fooo
+    "middle"
+  | ## Aligned on the top of the region
+    "top"
+
+---
+
+(source_file
+  (define
+    (identifier)
+    (repeated_pattern
+      (pattern
+        (primary
+          (identifier)))))
+  (define
+    (identifier)
+    (choice_pattern
+      (pattern
+        (primary))
+      (pattern
+        (primary
+          (simple_name_class
+            (name))
+          (pattern_block
+            (pattern
+              (primary
+                (identifier))))))
+      (pattern
+        (primary
+          (simple_name_class
+            (name))
+          (pattern_block
+            (pattern
+              (primary
+                (identifier))))))
+      (pattern
+        (primary
+          (simple_name_class
+            (name))
+          (pattern_block
+            (pattern
+              (primary
+                (identifier))))))
+      (pattern
+        (primary
+          (simple_name_class
+            (name))
+          (pattern_block
+            (pattern
+              (primary
+                (identifier))))))))
+  (define
+    (identifier)
+    (pattern
+      (primary
+        (simple_name_class
+          (name))
+        (pattern_block
+          (repeated_pattern
+            (pattern
+              (primary
+                (simple_name_class
+                  (name))
+                (pattern_block
+                  (pattern
+                    (primary
+                      (identifier)))))))))))
+  (define
+    (identifier)
+    (pattern
+      (primary
+        (identifier))))
+  (define
+    (identifier)
+    (repeated_pattern
+      (pattern
+        (choice_pattern
+          (pattern
+            (primary))
+          (pattern
+            (primary
+              (simple_name_class
+                (name))
+              (pattern_block
+                (pattern
+                  (primary
+                    (identifier))))))
+          (pattern
+            (primary
+              (simple_name_class
+                (name))
+              (pattern_block
+                (pattern
+                  (primary
+                    (identifier)))))))
+        (comment))))
+  (define
+    (identifier)
+    (repeated_pattern
+      (pattern
+        (choice_pattern
+          (pattern
+            (primary))
+          (pattern
+            (primary
+              (simple_name_class
+                (name))
+              (pattern_block
+                (pattern
+                  (primary
+                    (identifier))))))
+          (pattern
+            (primary
+              (simple_name_class
+                (name))
+              (pattern_block
+                (pattern
+                  (primary
+                    (identifier))))))
+          (pattern
+            (primary
+              (simple_name_class
+                (name))
+              (pattern_block
+                (group_pattern
+                  (repeated_pattern
+                    (pattern
+                      (primary
+                        (simple_name_class
+                          (name))
+                        (pattern_block
+                          (pattern
+                            (primary))))))
+                  (pattern
+                    (primary
+                      (identifier)))))))))))
+  (define
+    (identifier)
+    (choice_pattern
+      (pattern
+        (annotation
+          (documentation))
+        (primary
+          (datatype
+            (literal
+              (literal_segment)))))
+      (pattern
+        (annotation
+          (documentation))
+        (primary
+          (datatype
+            (literal
+              (literal_segment)))))
+      (pattern
+        (annotation
+          (documentation))
+        (primary
+          (datatype
+            (literal
+              (literal_segment))))))))

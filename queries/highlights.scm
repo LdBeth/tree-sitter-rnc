@@ -31,5 +31,4 @@
 
 (comment) @comment
 
-(documentations) @attribute
-
+(documentation) @attribute
