@@ -1,3 +1,4 @@
+LIBEXT ?= dylib
 TREE_CLI := tree-sitter
 LIBEXT := dylib
 TARGET := libtree-sitter-rnc.$(LIBEXT)
@@ -12,7 +13,7 @@ generate:
 	$(TREE_CLI) generate
 
 parser.o: src/parser.c
-	cc -fPIC -c -Isrc $<
+	$(CC) -fPIC -c -Isrc $<
 
 $(TARGET): parser.o
-	cc -fPIC -shared *.o -o $@
+	$(CC) -fPIC -shared *.o -o $@
