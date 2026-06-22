@@ -29,6 +29,13 @@
 (eval-when-compile
   (require 'rx))
 
+(treesit-declare-unavailable-functions)
+
+(add-to-list
+ 'treesit-language-source-alist
+ '(rnc "https://github.com/LdBeth/tree-sitter-rnc")
+ t)
+
 ;;; Code:
 
 ;;;###autoload
@@ -150,7 +157,8 @@ Return nil if there is no name or if NODE is not a defun node."
 (define-derived-mode rnc-ts-mode prog-mode "RNC"
   "Major mode to edit Relax-NG Compact files."
   :syntax-table rnc-mode-syntax-table
-  (when (treesit-ready-p 'rnc)
+  (when (and (treesit-ensure-installed 'rnc)
+             (treesit-ready-p 'rnc))
     (setq-local comment-start "#")
     (treesit-parser-create 'rnc)
     (setq-local treesit-font-lock-settings rnc--treesit-font-lock-settings)
